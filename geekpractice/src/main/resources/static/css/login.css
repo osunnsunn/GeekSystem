@@ -1,12 +1,12 @@
 @charset "UTF-8";
 
-container{
+.container{
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	margin-top: 50px;
 }
-container tr{
+.container tr{
 	display: flex;
 	flex-direction: column;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -9,9 +9,11 @@
 <body>
 	<header class="header">
 		<h1>GeekシステムTOP</h1>
-		<button class="loguot">ログアウト</button>
+		<form th:action="@{/logout}" method="post">
+			<button type="submit" class="loguot">ログアウト</button>
+		</form>
 	</header>
-	<container class="top">
+	<div class="top">
 		<div>
 			<button>店舗管理</button>
 		</div>
@@ -27,7 +29,7 @@
 		<div>
 			<button>管理者管理</button>
 		</div>
-	</container>
+	</div>
 </body>
 </html>
 
