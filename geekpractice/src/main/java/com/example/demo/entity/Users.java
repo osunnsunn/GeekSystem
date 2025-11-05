@@ -18,13 +18,13 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@Column(name = "stores_id", nullable = false)
-	private String storesId;
+	private Integer storesId;
 	
 	@Column(name = "roles_id", nullable = false)
-	private String rolesId;
+	private Integer rolesId;
 	
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
