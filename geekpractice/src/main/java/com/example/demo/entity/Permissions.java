@@ -19,7 +19,7 @@ public class Permissions {
 
 	@Column(name = "permissions_name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "permissions_code", nullable = false)
 	private String code;
 
@@ -41,7 +41,7 @@ public class Permissions {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}

@@ -15,35 +15,35 @@ import lombok.Data;
 @Data
 @Table(name = "users")
 public class Users {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "stores_id", nullable = false)
 	private Integer storesId;
-	
+
 	@Column(name = "roles_id", nullable = false)
 	private Integer rolesId;
-	
+
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "age", nullable = false)
 	private String age;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
-	
+
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
 }
