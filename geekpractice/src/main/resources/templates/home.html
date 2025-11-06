@@ -9,25 +9,25 @@
 <body>
 	<header class="header">
 		<h1>GeekシステムTOP</h1>
-		<form th:action="@{/logout}" method="post">
+		<form th:action="@{/login}" method="post">
 			<button type="submit" class="loguot">ログアウト</button>
 		</form>
 	</header>
 	<div class="top">
 		<div>
-			<button>店舗管理</button>
+			<a href="#"><button>店舗管理</butto></a>
 		</div>
 		<div>
-			<button>商品管理</button>
+			<a href="#"><button>商品管理</butto></a>
 		</div>
 		<div>
-			<button>カテゴリ管理</button>
+			<a href="#"><button>カテゴリ管理</butto></a>
 		</div>
 		<div>
-			<button>メーカ管理</button>
+			<a href="#"><button>メーカ管理</butto></a>
 		</div>
 		<div>
-			<button>管理者管理</button>
+			<a href="/roles/control"><button>管理者管理</butto></a>
 		</div>
 	</div>
 </body>

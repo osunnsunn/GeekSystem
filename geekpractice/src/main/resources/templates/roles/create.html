@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>Geek_Top</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>管理者作成</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/roles/control"><button>戻る</butto></a>
+		</div>
+	</header>
+	<div class="create">
+		<form method="post" th:action="@{/admin/create}">
+			<table>
+				<tr>
+					<label for="roles">役職</label>
+					<select id="roles" name="rolesId">
+						<option value="#" disabled selected>--役職を選択--</option>
+						<th:block th:each="r:${rolesList}">
+							<option th:value="${r.id}" th:text="${r.name}"></option>
+						</th:block>
+					</select>
+				</tr>
+				<tr>
+					<label for="permissions">権限</label>
+					<select id="permissions" name="permissionsId">
+						<option value="#" disabled selected>--権限を選択--</option>
+						<th:block th:each="p:${permissionsList}">
+							<option th:value="${p.id}" th:text="${p.name}"></option>
+						</th:block>
+					</select>
+				</tr>
+				<tr>
+					<label for="stores">店舗</label>
+					<select id="stores" name="storesId">
+						<option value="#" disabled selected>--店舗を選択--</option>
+						<th:block th:each="s:${storesList}">
+							<option th:value="${s.id}" th:text="${s.name}"></option>
+						</th:block>
+					</select>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
