@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.create {
+	max-width: 1000px;
+	margin: 20px auto;
+}
+
+.role {
+	display: flex;
+	gap: 10px;
+}
+
+.role div {
+	width: 250px;
+	height: 40px;
+	background-color: lightgreen;
+	box-shadow: 0 0 2px black;
+	border-radius: 5px;
+	display: inline-flex;
+	align-items: center;
+}
+
+.role div * {
+	margin: 0 auto;
+}
+
+.container {
+	width: 660px;
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+	border-radius: 5px;
+	background-color: lightgreen;
+	box-shadow: 0 0 2px black;
+	border-radius: 5px;
+	padding: 10px 20px;
+}
+
+.container div * {
+	margin: 5px auto;
+}
+
+.container div input {
+	width: 200px;
+	height: 30px;
+	margin: 0 auto;
+}
+
+.btn{
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+.btn button{
+	background-color: green;
+}
+.btn button:hover {
+	background-color: limegreen;
+}
+
+.btn button:active {
+	background-color: green;
+}
