@@ -42,12 +42,12 @@ public class RolesController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@GetMapping("/roles/control")
+	@GetMapping("/admin/rolesControl")
 	public String roles() {
-		return "roles/control";
+		return "admin/rolesControl";
 	}
 
-	@GetMapping("/roles/create")
+	@GetMapping("/admin/rolesCreate")
 	public String showRolesCreateForm(Model model) {
 
 		List<Roles> rolesList = rolesRepository.findAll();
@@ -62,10 +62,10 @@ public class RolesController {
 
 		model.addAttribute("usersForm", new UsersForm());
 
-		return "roles/create";
+		return "admin/rolesCreate";
 	}
 
-	@PostMapping("/roles/create")
+	@PostMapping("/admin/rolesCreate")
 	public String createUsers(@Valid @ModelAttribute("usersForm") UsersForm form, BindingResult bindingResult,
 			Model model) {
 
@@ -75,7 +75,7 @@ public class RolesController {
 			model.addAttribute("storesList", storesRepository.findAll());
 			model.addAttribute("usersList", usersRepository.findAll());
 			model.addAttribute("errorMessage", "登録失敗しました");
-			return "roles/create";
+			return "admin/rolesCreate";
 		}
 		Users users = new Users();
 		users.setRolesId(form.getRolesId());
@@ -92,6 +92,19 @@ public class RolesController {
 
 		usersRepository.save(users);
 		model.addAttribute("successMessage", "登録完了しました");
-		return "roles/create";
+		return "admin/rolesCreate";
 	}
+	
+	@GetMapping("/admin/rolesList")
+	public String showAdminList(Model model) {
+		List<Users> usersList = usersRepository.findAll();
+		model.addAttribute("usersList", usersList);
+		return "admin/rolesList";
+	}
+	
+	@GetMapping("/admin/rolesDetail")
+	public String rolesDetail() {
+		return "admin/rolesDetail";
+	}
+	
 }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/rolesList.css}">
+	<title>管理者一覧</title>
+</head>
+
+<body>
+
+	<header class="header">
+		<h1>管理者一覧</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/admin/rolesControl"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th class="width-1">役職名</th>
+				<th class="width-2">権限</th>
+				<th class="width-3">ユーザー名</th>
+				<th class="width-4">詳細/編集</th>
+			</tr>
+			<tr th:each="users : ${usersList}">
+				<td><span th:text="${users.roles?.name}"></span></td>
+				<td><span th:text="${users.roles?.permissions?.name}"></span></td>
+				<td>
+					<span th:text="${users.firstName}"></span>
+					<span th:text="${users.lastName}"></span>
+				</td>
+				<td><a th:href="@{'/admin/roles/' + ${users.id}}">詳細/編集</a></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+
+</html>
