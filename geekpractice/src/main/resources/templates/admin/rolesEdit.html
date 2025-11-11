@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>管理者編集</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>管理者編集</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/admin/rolesControl"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div>
+		<form method="post" th:action="@{/admin/roles/{id}/Edit(id=${users.id})}" th:object="${users}">
+
+			<div class="role">
+				<div>
+					<label for="roles">役職</label>
+					<select id="roles" name="rolesId" th:field="*{rolesId}">
+						<option value="" disabled selected>--役職を選択--</option>
+						<th:block th:each="r:${rolesList}">
+							<option th:value="${r.id}" th:text="${r.name}"></option>
+						</th:block>
+					</select>
+				</div>
+				<span th:if="${#fields.hasErrors('rolesId')}" th:errors="*{rolesId}" class="error" style="color: red;"></span>
+
+				<div>
+					<label for="stores">店舗</label>
+					<select id="stores" name="storesId" th:field="*{storesId}">
+						<option value="" disabled selected>--店舗を選択--</option>
+						<th:block th:each="s:${storesList}">
+							<option th:value="${s.id}" th:text="${s.name}"></option>
+						</th:block>
+					</select>
+				</div>
+				<span th:if="${#fields.hasErrors('storesId')}" th:errors="*{storesId}" class="error" style="color: red;"></span>
+			</div>
+
+			<div class="container">
+				<div>
+					<p>姓</p>
+					<input type="text" th:field="*{firstName}">
+					<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red;"></p>
+				</div>
+				<div>
+					<p>名</p>
+					<input type="text" th:field="*{lastName}">
+					<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;"></p>
+				</div>
+				<div>
+					<p>年齢</p>
+					<input type="text" th:field="*{age}">
+					<p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color: red;"></p>
+				</div>
+			</div>
+
+			<div class="container">
+				<div>
+					<p>メールアドレス</p>
+					<input type="email" th:field="*{email}">
+					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></p>
+				</div>
+				<div>
+					<p>パスワード</p>
+					<input type="text" th:field="*{password}">
+					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></p>
+				</div>
+				<div>
+					<p>電話番号</p>
+					<input type="tel" th:field="*{phone}">
+					<p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red;"></p>
+				</div>
+			</div>
+
+			<div class="btn">
+				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+				<button type="submit">更新</button>
+			</div>
+
+		</form>
+	</div>
+
+</body>
+
+</html>

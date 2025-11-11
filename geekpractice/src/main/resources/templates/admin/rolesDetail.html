@@ -4,13 +4,13 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<title>管理者一覧</title>
+	<title>管理者詳細</title>
 </head>
 
 <body>
-	
+
 	<header class="header">
-		<h1>管理者一覧</h1>
+		<h1>管理者詳細</h1>
 		<div class="box">
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
@@ -18,6 +18,63 @@
 			<a href="/admin/rolesList"><button>戻る</button></a>
 		</div>
 	</header>
+
+	<div class="create">
+
+		<div class="role">
+			<div>
+				<label for="roles">役職</label>
+				<p th:text="${users.roles?.name}"></p>
+			</div>
+			<div>
+				<label for="permissions">権限</label>
+				<p th:text="${users.roles?.permissions?.name}"></p>
+			</div>
+			<div>
+				<label for="stores">店舗</label>
+				<p th:text="${users.stores?.name}"></p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div>
+				<p>姓</p>
+				<p th:text="${users.firstName}"></p>
+			</div>
+			<div>
+				<p>名</p>
+				<p th:text="${users.lastName}"></p>
+			</div>
+			<div>
+				<p>年齢</p>
+				<p th:text="${users.age}"></p>
+			</div>
+		</div>
+
+		<div class="container">
+			<div>
+				<p>メールアドレス</p>
+				<p th:text="${users.email}"></p>
+			</div>
+			<div>
+				<p>パスワード</p>
+				<p th:text="${users.password}"></p>
+			</div>
+			<div>
+				<p>電話番号</p>
+				<p th:text="${users.phone}"></p>
+			</div>
+		</div>
+		
+		<div class="btn">
+			<a th:href="@{/admin/roles/{id}/Edit(id=${users.id})}">
+				<button type="button">編集</button>
+			</a>
+		</div>
+
+		</form>
+	</div>
+
 
 </body>
 

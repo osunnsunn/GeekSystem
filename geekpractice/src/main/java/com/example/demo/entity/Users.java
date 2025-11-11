@@ -122,8 +122,11 @@ public class Users {
 
 	public String getPhone() {
 		return phone;
-	
 	}
+	
+	@ManyToOne
+	@JoinColumn(name = "stores_id", insertable = false, updatable = false)
+	private Stores stores;
 	
 	@ManyToOne
 	@JoinColumn(name = "roles_id", insertable = false, updatable = false)
