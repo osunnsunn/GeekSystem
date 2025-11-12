@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/stores/storesList.css}">
+	<title>店舗一覧</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>店舗一覧</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/home"><button>戻る</butto></a>
+		</div>
+	</header>
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th class="width-1">店舗ID</th>
+				<th class="width-2">店舗名</th>
+				<th class="width-3">詳細/編集</th>
+			</tr>
+			<tr th:each="stores : ${storesList}">
+				<td><span th:text="${stores.id}"></span></td>
+				<td><span th:text="${stores.name}"></span></td>
+				<td><a th:href="@{'/stores/stores/' + ${stores.id}}">詳細/編集</a></td>
+			</tr>
+		</table>
+	</div>
+</body>
