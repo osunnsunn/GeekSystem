@@ -38,7 +38,7 @@ public class RolesController {
 		return "admin/rolesCreate";
 	}
 
-	@PostMapping("/admin/rolesCreate") //管理者登録処理
+	@PostMapping("/admin/rolesCreate") //管理者作成
 	public String createUsers(@Valid @ModelAttribute("usersForm") UsersForm form, BindingResult bindingResult,
 			Model model) {
 
@@ -75,7 +75,7 @@ public class RolesController {
 		return "admin/rolesDetail";
 	}
 
-	@GetMapping("/admin/roles/{id}/Edit")
+	@GetMapping("/admin/roles/{id}/Edit") //管理者編集画面
 	public String showEditForm(@PathVariable Integer id, Model model) {
 	    Users users = rolesService.getUserById(id);
 	    if (users == null) {
@@ -89,7 +89,7 @@ public class RolesController {
 	    return "admin/rolesEdit";
 	}
 
-	@PostMapping("/admin/roles/{id}/Edit") //管理者編集登録
+	@PostMapping("/admin/roles/{id}/Edit") //管理者編集
 	public String updateUser(@PathVariable Integer id, @Valid @ModelAttribute("usersForm") UsersForm form,
 			BindingResult bindingResult, Model model) {
 

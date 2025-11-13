@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/rolesCreate.css}">
+	<title>Geek_Top</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>店舗作成</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/stores/storesControl"><button>戻る</button></a>
+		</div>
+	</header>
+	
+	<div class="create">
+		<form method="post" th:action="@{/stores/storesCreate}" th:object="${storesForm}">
+
+			<div class="container">
+				<div>
+					<p>店舗名</p>
+					<input type="text" th:field="*{name}">
+					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
+				</div>
+				<div>
+					<p>住所</p>
+					<input type="text" th:field="*{address}">
+
+					<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;"></p>
+				</div>
+			</div>
+
+			<div class="btn">
+				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+				<button type="submit">店舗作成</button>
+			</div>
+		</form>
+	</div>
 </body>
-</html>

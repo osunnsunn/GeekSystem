@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class UsersForm {
 
-	@NotNull(message = "役職を洗濯してください")
+	@NotNull(message = "役職を選択してください")
 	private Integer rolesId;
 
 	@NotNull(message = "権限を選択してください")

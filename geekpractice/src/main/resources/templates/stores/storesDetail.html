@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>店舗詳細</title>
 </head>
+
 <body>
 
+	<header class="header">
+		<h1>店舗詳細</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/stores/storesList"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<div>
+			<p>店舗ID</p>
+			<p th:text="${stores.id}"></p>
+		</div>
+		<div>
+			<label for="stores">店舗</label>
+			<p th:text="${stores.name}"></p>
+		</div>
+		<div>
+			<p>住所</p>
+			<p th:text="${stores.address}"></p>
+		</div>
+	</div>
+
+	<div class="btn">
+		<a th:href="@{/stores/stores/{id}/Edit(id=${stores.id})}">
+			<button type="button">編集</button>
+		</a>
+	</div>
+
 </body>
+
 </html>
