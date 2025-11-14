@@ -14,12 +14,12 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/stores/stores/{id})"><button>戻る</button></a>
+			<a href="/stores/storesList"><button>戻る</button></a>
 		</div>
 	</header>
 
 	<div>
-		<form method="post" th:action="@{/stores/stores/{id}/Edit(id=${storesId})}" th:object="${stores}">
+		<form method="post" th:action="@{/stores/stores/{id}/Edit(id=${stores.id})}" th:object="${stores}">
 
 			<div class="container">
 				<div>
@@ -27,7 +27,8 @@
 					<p th:text="${id}"></p>
 				</div>
 				<div>
-					<label>店舗名</label>
+					<label>店舗名(変更不可)</label>
+					<input type="text" th:field="*{name}" readonly>
 					<p th:text="${name}"></p>
 				</div>
 				<div>
@@ -38,6 +39,8 @@
 			</div>
 
 			<div class="btn">
+				<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
 				<button type="submit">更新</button>
 			</div>
 

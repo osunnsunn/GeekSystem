@@ -46,33 +46,35 @@ public class StoresController {
 	    return "stores/storesDetail";
 	}
 	
-	@GetMapping("/stores/stores/{id}/Edit")
+	@GetMapping("/stores/stores/{id}/Edit") //店舗編集画面
 	public String showEditForm(@PathVariable Integer id, Model model) {
 	    Stores stores = storesService.getStoresById(id);
+	    
 	    if (stores == null) {
 	        model.addAttribute("errorMessage", "該当店舗が見つかりません");
 	        return "stores/storesList";
 	    }
-
-	    StoresForm form = new StoresForm(); //サービス層にしたい
-	    form.setName(stores.getName());
-	    form.setAddress(stores.getAddress());
-
-	    model.addAttribute("storesForm", form); // フォームオブジェクト
-	    model.addAttribute("storesId", stores.getId()); // id は隠しフィールド用
+	    
+	    model.addAttribute("stores", stores);
+	    model.addAttribute("storesList", storesService.getAllStores());
 	    return "stores/storesEdit";
 	}
 
 	@PostMapping("/stores/stores/{id}/Edit") //店舗編集
-	public String updatorestores(@PathVariable Integer id, @Valid @ModelAttribute("storesForm") StoresForm form, BindingResult bindingResult, Model model) {
+	public String updatorestores(@PathVariable Integer id, @Valid @ModelAttribute("stores") Stores stores, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("stores", storesService.getStoresById(id));
+			model.addAttribute("storesList", storesService.getAllStores());
 			model.addAttribute("errorMessage", "更新失敗しました");
 			return "stores/storesEdit";
 		}
 
-		storesService.updateStores(id, form);
-		return "redirect:/stores/storesList";
+		storesService.updateStores(id, stores);
+		model.addAttribute("stores", storesService.getStoresById(id));
+		model.addAttribute("storesList", storesService.getAllStores());
+		model.addAttribute("successMessage", "更新が完了しました");
+		return "stores/storesEdit";
 	}
 	
 	@GetMapping("/stores/storesCreate") //店舗作成画面
@@ -83,14 +85,13 @@ public class StoresController {
 	}
 
 	@PostMapping("/stores/storesCreate") //店舗作成
-	public String createStores(@Valid @ModelAttribute("storesForm") StoresForm form, BindingResult bindingResult,
-			Model model) {
+	public String createStores(@Valid @ModelAttribute("storesForm") StoresForm form, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("storesList", storesService.getAllStores());
-			model.addAttribute("errorMessage", "登録失敗しました");
-			return "stores/storesCreate";
-		}
+	        model.addAttribute("storesList", storesService.getAllStores());
+	        model.addAttribute("errorMessage", "登録失敗しました");
+	        return "stores/storesCreate";
+	    }
 
 		storesService.createStores(form);
 		model.addAttribute("successMessage", "登録完了しました");

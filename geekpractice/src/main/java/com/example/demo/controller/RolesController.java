@@ -90,8 +90,7 @@ public class RolesController {
 	}
 
 	@PostMapping("/admin/roles/{id}/Edit") //管理者編集
-	public String updateUser(@PathVariable Integer id, @Valid @ModelAttribute("usersForm") UsersForm form,
-			BindingResult bindingResult, Model model) {
+	public String updateUsers(@PathVariable Integer id, @Valid @ModelAttribute("users") Users users, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("users", rolesService.getUserById(id));
@@ -102,8 +101,8 @@ public class RolesController {
 			return "admin/rolesEdit";
 		}
 
-		rolesService.updateUser(id, form);
+		rolesService.updateUsers(id, users);
 		model.addAttribute("successMessage", "更新が完了しました");
-		return "redirect:/admin/rolesList";
+		return "admin/rolesEdit";
 	}
 }

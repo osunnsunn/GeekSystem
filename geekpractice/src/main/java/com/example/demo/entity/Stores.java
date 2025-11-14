@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,11 +19,18 @@ public class Stores {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "stores_name", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "stores_address", nullable = false)
+	@Column(name = "address", nullable = false)
 	private String address;
+	
+	@Column(name = "created_at", nullable = false, updatable = false)
+	private LocalDateTime createdAt;
+
+	@Column(name = "updated_at", nullable = false)
+	private LocalDateTime updatedAt;
+
 
 	public Integer getId() {
 		return id;

@@ -14,7 +14,7 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/admin/rolesControl"><button>戻る</button></a>
+			<a href="/admin/rolesList"><button>戻る</button></a>
 		</div>
 	</header>
 
@@ -82,6 +82,7 @@
 			</div>
 
 			<div class="btn">
+				<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
 				<button type="submit">更新</button>
 			</div>

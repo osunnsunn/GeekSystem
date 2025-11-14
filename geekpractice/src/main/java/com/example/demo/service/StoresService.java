@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,20 +25,23 @@ public class StoresService {
 		return storesRepository.findById(id).orElse(null);
 	}
 	
-	public void createStores(StoresForm form) {
+	public Stores createStores(StoresForm form) {
 	    Stores stores = new Stores();
 	    stores.setName(form.getName());
 	    stores.setAddress(form.getAddress());
-	    storesRepository.save(stores);
+	    stores.setCreatedAt(LocalDateTime.now());
+	    stores.setUpdatedAt(LocalDateTime.now());
+	    
+	    return storesRepository.save(stores);
 	}
 	
-	public Stores updateStores(Integer id, StoresForm form) {
+	public Stores updateStores(Integer id, Stores updatedStores) {
 		Optional<Stores> opt = storesRepository.findById(id);
 		if (opt.isEmpty()) return null;
 		
 		Stores stores = opt.get();
-	    stores.setName(form.getName());
-	    stores.setAddress(form.getAddress());
+	    stores.setName(updatedStores.getName());
+	    stores.setAddress(updatedStores.getAddress());
 	    
 	    return storesRepository.save(stores);
 	}

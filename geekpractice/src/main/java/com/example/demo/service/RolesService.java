@@ -74,24 +74,24 @@ public class RolesService {
         return usersRepository.findById(id).orElse(null);
     }
 	
-	public Users updateUser(Integer id, UsersForm form) {
+	public Users updateUsers(Integer id, Users updatedUsers) {
         Optional<Users> opt = usersRepository.findById(id);
         if (opt.isEmpty()) return null;
 
-        Users user = opt.get();
-        user.setRolesId(form.getRolesId());
-        user.setStoresId(form.getStoresId());
-        user.setFirstName(form.getFirstName());
-        user.setLastName(form.getLastName());
-        user.setAge(form.getAge());
-        user.setEmail(form.getEmail());
-        user.setPhone(form.getPhone());
+        Users users = opt.get();
+        users.setRolesId(updatedUsers.getRolesId());
+        users.setStoresId(updatedUsers.getStoresId());
+        users.setFirstName(updatedUsers.getFirstName());
+        users.setLastName(updatedUsers.getLastName());
+        users.setAge(updatedUsers.getAge());
+        users.setEmail(updatedUsers.getEmail());
+        users.setPhone(updatedUsers.getPhone());
 
-        if (form.getPassword() != null && !form.getPassword().isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(form.getPassword());
-            user.setPassword(hashedPassword);
+        if (updatedUsers.getPassword() != null && !updatedUsers.getPassword().isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(updatedUsers.getPassword());
+            users.setPassword(hashedPassword);
         }
 
-        return usersRepository.save(user);
+        return usersRepository.save(users);
     }
 }
