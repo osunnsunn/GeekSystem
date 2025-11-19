@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/category/category.css}">
 	<title>大カテゴリ一覧</title>
 </head>
 
@@ -27,13 +28,13 @@
 				<th class="width-3">中カテゴリへ</th>
 			</tr>
 			<tr th:each="largeCategory : ${largeCategoryList}">
-				<td><span th:text="${id}"></span></td>
-				<td><span th;text="${name}"></span></td>
-				<td><a th:href="@{'/category/middleCategoryList/'+${id}}">中カテゴリ</a></td>
+				<td><span th:text="${largeCategory.id}"></span></td>
+				<td><span th:text="${largeCategory.name}"></span></td>
+				<td><a th:href="@{'/category/middleCategoryList/'+${largeCategory.id}}">中カテゴリ</a></td>
 			</tr>
 		</table>
 	</div>
-s
+
 </body>
 
 </html>

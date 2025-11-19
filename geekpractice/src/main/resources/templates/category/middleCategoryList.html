@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/category/category.css}">
 	<title>中カテゴリ一覧</title>
 </head>
 
@@ -15,7 +16,7 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/category/largetList"><button>戻る</button></a>
+			<a href="/category/largeCategoryList"><button>戻る</button></a>
 		</div>
 	</header>
 
@@ -27,9 +28,9 @@
 				<th class="width-3">小カテゴリへ</th>
 			</tr>
 			<tr th:each="middleCategory : ${middleCategoryList}">
-				<td><span th:text="${id}"></span></td>
-				<td><span th;text="${name}"></span></td>
-				<td><a th:href="@{'/category/smallCategoryList/'+${id}}">小カテゴリ</a></td>
+				<td><span th:text="${middleCategory.id}"></span></td>
+				<td><span th:text="${middleCategory.name}"></span></td>
+				<td><a th:href="@{'/category/smallCategoryList/'+${middleCategory.id}}">小カテゴリ</a></td>
 			</tr>
 		</table>
 	</div>

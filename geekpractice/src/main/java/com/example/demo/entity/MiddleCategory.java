@@ -20,7 +20,7 @@ public class MiddleCategory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "large_category", nullable = false)
+	@Column(name = "large_category_id", nullable = false)
 	private Integer largeCategoryId;
 	
 	@Column(name = "name", nullable = false)

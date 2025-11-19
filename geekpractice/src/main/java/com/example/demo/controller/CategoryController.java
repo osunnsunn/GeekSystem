@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +22,28 @@ public class CategoryController {
 	private CategoryService categoryService;
 	
 	@GetMapping("/category/largeCategoryList")
-	public String showAdminList(Model madel) {
-		List<LargeCategory> largeCategoryList = categoryService.getAllLargeCategory();
-		model.addAttribute("largeCategoryList", largeCategoryList);
+	public String showAdminList(Model model) {
+		List<LargeCategory> largeCategory = categoryService.getAllLargeCategory();
+		model.addAttribute("largeCategoryList", largeCategory);
 		return "category/largeCategoryList";
 	}
 	
 	@GetMapping("/category/middleCategoryList/{id}")
 	public String showMiddleCategoryDetail(@PathVariable Integer id, Model model) {
 		
-		MiddleCategory middleCategory = categoryService.getAllMiddleCategory(id);
-		model.addAttribute("middleCategory", middleCategory);
-		return "/category/middleCategoryList/{id}";
+		List<MiddleCategory> middleCategory = categoryService.getMiddleCategoryById(id);
+		model.addAttribute("middleCategoryList", middleCategory);
+		model.addAttribute("largeCategoryId", id);
+		return "/category/middleCategoryList";
 	}
 	
 	@GetMapping("/category/smallCategoryList/{id}")
 	public String showSmallCategoryDetail(@PathVariable Integer id, Model model) {
 		
-		SmallCategory smallCategory = categoryService.getAllSmallCategory(id);
-		model.addAttribute("smallCategory", smallCategory);
-		return "/category/smallCategoryList/{id}";
+		List<SmallCategory> smallCategory = categoryService.getSmallCategoryById(id);
+		model.addAttribute("smallCategoryList", smallCategory);
+		model.addAttribute("middleCategoryId", id);
+		return "/category/smallCategoryList";
 	}
-
 
 }

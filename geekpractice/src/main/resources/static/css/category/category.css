@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+.container{
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.container a {
+	color: blue;
+}
+.width-1{
+	width: 100px;
+}
+.width-2{
+	width: 300px;
+}
+.width-3{
+	width: 100px;
+}

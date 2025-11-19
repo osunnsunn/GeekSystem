@@ -27,25 +27,13 @@ public class CategoryService {
 	public List<LargeCategory> getAllLargeCategory(){
 		return largeCategoryRepository.findAll();
 	}
-	
-	public List<MiddleCategory> getAllMiddleCategory(){
-		return middleCategoryRepository.findAll();
-	}
-	
-	public List<SmallCategory> getAllSmallCategory(){
-		return smallCategoryRepository.findAll();
-	}
-	
-	public LargeCategory getLargeCategoryById(Integer id) {
-        return largeCategoryRepository.findById(id).orElse(null);
+		
+	public List<MiddleCategory> getMiddleCategoryById(Integer largeCategoryId) {
+		return middleCategoryRepository.findByLargeCategoryId(largeCategoryId);
     }
 	
-	public MiddleCategory getMiddleCategoryById(Integer id) {
-        return middleCategoryRepository.findById(id).orElse(null);
-    }
-	
-	public SmallCategory getSmallCategoryById(Integer id) {
-        return smallCategoryRepository.findById(id).orElse(null);
+	public List<SmallCategory> getSmallCategoryById(Integer middleCategoryId) {
+		return smallCategoryRepository.findByMiddleCategoryId(middleCategoryId);
     }
 	
 
