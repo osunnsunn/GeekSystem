@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<title>商品一覧</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>商品一覧</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/home"><button>戻る</butto></a>
+		</div>
+	</header>
+
+	<form th:action="@{/goods/goods}" th:object="${goodsSearchForm}" method="get" class="select">
+		<div>
+			<label for="smailCategory">カテゴリ</label>
+			<select id="smailCategoryId" th:field="*{smailCategoryId}">
+				<option value="" disabled selected>--カテゴリを選択--</option>
+				<option th:each="cat : ${smallCategoryList}" th:value="${cat.id}" th:text="${cat.name}"></option>
+			</select>
+		</div>
+		<div>
+			<label>商品名</label>
+			<input type="text" th:field="*{goodsName}" placeholder="商品名を入力">
+		</div>
+		<div class="btn">
+			<button type="submit">検索</button>
+		</div>
+	</form>
+
+	<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th class="width-1">商品ID</th>
+				<th class="width-2">商品名</th>
+				<th class="width-3">詳細/編集</th>
+			</tr>
+			<tr th:each="goods : ${goodsList}">
+				<td><span th:text="${goods.id}"></span></td>
+				<td><span th:text="${goods.name}"></span></td>
+				<td><a th:href="@{'/goods/goodsDetail/' + ${goods.id}}">詳細/編集</a></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+
+</html>

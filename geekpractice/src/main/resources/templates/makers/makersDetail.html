@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<title>メーカー詳細</title>
 </head>
+
 <body>
 
+	<header class="header">
+		<h1>メーカー詳細</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/makers/makersList"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<div>
+			<p>メーカーID</p>
+			<p th:text="${makers.id}"></p>
+		</div>
+		<div>
+			<label for="makers">メーカー名</label>
+			<p th:text="${makers.name}"></p>
+		</div>
+	</div>
+
+	<div class="btn">
+		<a th:href="@{/makers/makers/{id}/Edit(id=${makers.id})}">
+			<button type="button">編集</button>
+		</a>
+	</div>
+
 </body>
+
 </html>

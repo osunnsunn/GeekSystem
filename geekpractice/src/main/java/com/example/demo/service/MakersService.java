@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,16 @@ public class MakersService {
 		makers.setUpdatedAt(LocalDateTime.now());
 		
 		return makersRepository.save(makers);
+	}
+	
+	public Makers updateMakers(Integer id, Makers updatedMakers) {
+		Optional<Makers> opt = makersRepository.findById(id);
+		if (opt.isEmpty()) return null;
+		
+		Makers makers = opt.get();
+	    makers.setName(updatedMakers.getName());
+	    
+	    return makersRepository.save(makers);
 	}
 
 }

@@ -36,5 +36,9 @@ public class CategoryService {
 		return smallCategoryRepository.findByMiddleCategoryId(middleCategoryId);
     }
 	
+	public List<SmallCategory> findAllSmall() {
+	    return smallCategoryRepository.findAll();
+	}
+	
 
 }

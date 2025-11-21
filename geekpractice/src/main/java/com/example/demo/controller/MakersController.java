@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Makers;
@@ -32,6 +33,48 @@ public class MakersController {
 		List<Makers> makersList = makersService.getAllMakers();
 		model.addAttribute("makersList", makersList);
 		return "makers/makersList";
+	}
+	
+	@GetMapping("/makers/makers/{id}") //メーカー詳細画面
+	public String showMakersDetail(@PathVariable Integer id, Model model) {
+		Makers makers = makersService.getMakersById(id);
+		if(makers == null) {
+			model.addAttribute("errorMessage", "該当店舗が見つかりません");
+			return "makers/makersDetail";
+		}
+		model.addAttribute("makers", makers);
+	    return "makers/makersDetail";
+	}
+	
+	@GetMapping("/makers/makers/{id}/Edit") //メーカー編集画面
+	public String showEditForm(@PathVariable Integer id, Model model) {
+	    Makers makers = makersService.getMakersById(id);
+	    
+	    if (makers == null) {
+	        model.addAttribute("errorMessage", "該当店舗が見つかりません");
+	        return "makers/makersList";
+	    }
+	    
+	    model.addAttribute("makers", makers);
+	    model.addAttribute("makersList", makersService.getAllMakers());
+	    return "makers/makersEdit";
+	}
+
+	@PostMapping("/makers/makers/{id}/Edit") //メーカー編集
+	public String updatoreMakers(@PathVariable Integer id, @Valid @ModelAttribute("makers") Makers makers, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("makers", makersService.getMakersById(id));
+			model.addAttribute("makersList", makersService.getAllMakers());
+			model.addAttribute("errorMessage", "更新失敗しました");
+			return "makers/makersEdit";
+		}
+
+		makersService.updateMakers(id, makers);
+		model.addAttribute("makers", makersService.getMakersById(id));
+		model.addAttribute("makersList", makersService.getAllMakers());
+		model.addAttribute("successMessage", "更新が完了しました");
+		return "makers/makersEdit";
 	}
 	
 	@GetMapping("/makers/makersCreate") //メーカー作成画面

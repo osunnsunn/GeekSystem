@@ -29,7 +29,7 @@
 			<tr th:each="makers : ${makersList}">
 				<td><span th:text="${makers.id}"></span></td>
 				<td><span th:text="${makers.name}"></span></td>
-				<td><span th:href="@{'/makers/makers/' + ${makers.id}}"></span>詳細/編集</td>
+				<td><a th:href="@{'/makers/makers/' + ${makers.id}}">詳細/編集</a></td>
 			</tr>
 		</table>
 	</div>
