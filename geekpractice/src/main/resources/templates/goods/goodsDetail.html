@@ -4,7 +4,6 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/home.css}">
 	<title>商品詳細</title>
 </head>
 
@@ -15,10 +14,61 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/home"><button>戻る</butto></a>
+			<a href="/goods/goodsList"><button>戻る</butto></a>
 		</div>
 	</header>
-	<div class="controller"></div>
+
+	<div class="container">
+		<div>
+			<label for="goodsId">商品ID</label>
+			<p th:text="${goods.id}"></p>
+		</div>
+		<div>
+			<label for="goodsName">商品名</label>
+			<p th:text="${goods.name}"></p>
+		</div>
+		<div>
+			<label for="smallCategory">小カテゴリ</label>
+			<p th:text="${goods.smallCategory.id}"></p>
+		</div>
+	</div>
+
+	<div class="container2">
+		<label for="goods">商品画像</label>
+	</div>
+
+	<div class="container3">
+		<label for="goods">商品説明</label>
+		<p th:text="${goods.description}"></p>
+	</div>
+
+	<div class="container4">
+		<div>
+			<label for="makers">メーカー名</label>
+			<p th:text="${goods.makers.name}"></p>
+		</div>
+		<div>
+			<label>仕入れ原価</label>
+			<p th:text="${goods.costPrice}"></p>
+		</div>
+		<div>
+			<label>メーカー希望小売価格</label>
+			<p th:text="${goods.retailPrice}"></p>
+		</div>
+		<div>
+			<label>販売価格</label>
+			<p th:text="${goods.salesPrice}"></p>
+		</div>
+	</div>
+
+	<div class="btn">
+		<a th:href="@{/goods/goods/{id}/Edit(id=${goods.id})}">
+			<button type="button">編集</button>
+		</a>
+		<form th:action="@{'/goods/goodsDetail/' + ${goods.id}}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+			<button type="submit">商品削除</button>
+		</form>
+	</div>
 
 </body>
 

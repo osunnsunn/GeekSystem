@@ -39,5 +39,17 @@ public class GoodsServiceImpl implements GoodsService{
             return goodsRepository.findByNameContaining(goodsName);
         }
     }
+    
+    public Goods findById(Integer id) {
+        return goodsRepository.findById(id).orElse(null);
+    }
+
+    public void update(Goods goods) {
+        goodsRepository.save(goods);
+    }
+
+    public void delete(Integer id) {
+    	goodsRepository.deleteById(id);
+    }
 
 }

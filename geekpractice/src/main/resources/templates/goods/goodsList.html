@@ -15,14 +15,14 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/home"><button>戻る</butto></a>
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
 		</div>
 	</header>
 
-	<form th:action="@{/goods/goods}" th:object="${goodsSearchForm}" method="get" class="select">
+	<form th:action="@{/goods/search}" th:object="${goodsSearchForm}" method="get" class="select">
 		<div>
-			<label for="smailCategory">カテゴリ</label>
-			<select id="smailCategoryId" th:field="*{smailCategoryId}">
+			<label for="smallCategory">カテゴリ</label>
+			<select id="smallCategoryId" th:field="*{smallCategoryId}">
 				<option value="" disabled selected>--カテゴリを選択--</option>
 				<option th:each="cat : ${smallCategoryList}" th:value="${cat.id}" th:text="${cat.name}"></option>
 			</select>
@@ -43,11 +43,13 @@
 			<tr>
 				<th class="width-1">商品ID</th>
 				<th class="width-2">商品名</th>
-				<th class="width-3">詳細/編集</th>
+				<th class="width-3">小カテゴリ</th>
+				<th class="width-4">詳細/編集</th>
 			</tr>
 			<tr th:each="goods : ${goodsList}">
 				<td><span th:text="${goods.id}"></span></td>
 				<td><span th:text="${goods.name}"></span></td>
+				<td><span th:text="${goods.smallCategory.name}"></span></td>
 				<td><a th:href="@{'/goods/goodsDetail/' + ${goods.id}}">詳細/編集</a></td>
 			</tr>
 		</table>
