@@ -34,7 +34,7 @@ public class Goods {
 	private String description;
 	
 	@Column(name = "cost_price", nullable = false)
-	private String costPrice;
+	private Integer costPrice;
 	
 	@Column(name = "retail_price", nullable = false)
 	private String retailPrice;
@@ -55,5 +55,7 @@ public class Goods {
 	@ManyToOne
 	@JoinColumn(name = "small_category_id", insertable = false, updatable = false)
 	private SmallCategory smallCategory;
+	
+	private String imagePath;
 
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Goods;
+import com.example.demo.form.GoodsForm;
 import com.example.demo.form.GoodsSearchForm;
 import com.example.demo.repository.GoodsRepository;
 
@@ -14,6 +15,9 @@ public class GoodsServiceImpl implements GoodsService{
 
 	@Autowired
     private GoodsRepository goodsRepository;
+	
+	@Autowired
+	private ImageStorageService imageStorageService;
 
     @Override
     public List<Goods> findAll() {
@@ -50,6 +54,24 @@ public class GoodsServiceImpl implements GoodsService{
 
     public void delete(Integer id) {
     	goodsRepository.deleteById(id);
+    }
+    
+    @Override
+    public void create(GoodsForm form) {
+
+    	String fileName = imageStorageService.storeImage(form.getImage());
+
+        Goods goods = new Goods();
+        goods.setName(form.getName());
+        goods.setDescription(form.getDescription());
+        goods.setSmallCategoryId(form.getSmallCategoryId());
+        goods.setMakersId(form.getMakersId());
+        goods.setCostPrice(form.getCostPrice());
+        goods.setRetailPrice(form.getRetailPrice());
+        goods.setSalesPrice(form.getSalesPrice());
+        goods.setImagePath(fileName);
+
+        goodsRepository.save(goods);
     }
 
 }

@@ -3,6 +3,8 @@ package com.example.demo.form;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -20,7 +22,7 @@ public class GoodsForm {
 	@NotBlank(message = "説明がありません")
 	private String description;
 	
-	@NotBlank(message = "仕入れ原価がありません")
+	@NotNull(message = "仕入れ原価がありません")
 	private Integer costPrice;
 
 	@NotBlank(message = "メーカ希望小売価格がありません")
@@ -28,5 +30,7 @@ public class GoodsForm {
 
 	@NotBlank(message = "販売価格がありません")
 	private String salesPrice;
+	
+	private MultipartFile image;
 
 }
