@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.demo.entity.Goods;
 import com.example.demo.form.GoodsForm;
 import com.example.demo.form.GoodsSearchForm;
+import com.example.demo.form.OrderForm;
+import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.CategoryService;
 import com.example.demo.service.GoodsServiceImpl;
 import com.example.demo.service.MakersService;
+import com.example.demo.service.OrdersService;
 
 @Controller
 public class GoodsController {
@@ -29,6 +33,9 @@ public class GoodsController {
 
 	@Autowired
 	private MakersService makersService;
+
+	@Autowired
+	private OrdersService ordersService;
 
 	@GetMapping("/goods/goodsControl") //商品管理 画面
 	public String goodsControl() {
@@ -94,8 +101,21 @@ public class GoodsController {
 	}
 
 	@GetMapping("/goods/goodsOrder") //商品発注 画面
-	public String goodsOrder() {
-		return "/goods/goodsOrder";
+	public String goodsOrder(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	    model.addAttribute("usersList", ordersService.getAllUsers());
+	    model.addAttribute("goodsList", goodsService.findAll());
+	    model.addAttribute("OrderForm", new OrderForm());
+	    return "goods/goodsOrder";
+	}
+
+	@PostMapping("/goods/goodsOrder") //発注処理
+	public String submitOrder(@ModelAttribute OrderForm form, Model model) {
+		
+		model.addAttribute("orderForm", new OrderForm());
+		model.addAttribute("usersList", ordersService.getAllUsers());
+	    model.addAttribute("goodsList", goodsService.findAll());
+		model.addAttribute("successMessage", "発注が完了しました！");
+		return "goods/goodsOrder";
 	}
 
 	@GetMapping("/goods/goodsHistory") //発注履歴 画面
@@ -108,7 +128,7 @@ public class GoodsController {
 		return "/goods/goodsStock";
 	}
 
-	@GetMapping("/goods/goodsCreate")
+	@GetMapping("/goods/goodsCreate") //商品作成 画面
 	public String showCreateForm(Model model) {
 
 		model.addAttribute("goodsForm", new GoodsForm());
@@ -119,7 +139,7 @@ public class GoodsController {
 		return "goods/goodsCreate";
 	}
 
-	@PostMapping("/goods/goodsCreate")
+	@PostMapping("/goods/goodsCreate") //作成処理
 	public String createGoods(@ModelAttribute("goodsForm") @Valid GoodsForm form,
 			BindingResult result,
 			Model model) {
@@ -143,3 +163,5 @@ public class GoodsController {
 	}
 
 }
+
+//11/27途中

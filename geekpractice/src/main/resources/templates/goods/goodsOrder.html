@@ -18,7 +18,40 @@
 			<a href="/home"><button>戻る</butto></a>
 		</div>
 	</header>
-	<div class="controller"></div>
+
+	<form th:action="@{/goods/goodsOrder}" th:object="${OrderForm}" method="post">
+		<div>
+			<label>発注店舗</label>
+			<p th:text="${storesId}"></p>
+		</div>
+		<div>
+			<label>発注者</label>
+			<p th:text="${usersId}"></p>
+		</div>
+		<div>
+			<label>商品ID入力</label>
+			<input type="number" id="goodsId" name="goodsId">
+		</div>
+		<div>
+			<label>商品名</label>
+			<p th:text="${goodsName}"></p>
+		</div>
+		<div>
+			<label>金額</label>
+			<p th:text="${goodsPrice}"></p>
+		</div>
+		<div>
+			<label>個数</label>
+			<input type="number" id="quantity" name="quantity" min="1" value="1">
+		</div>
+		<div>
+			<label>小計</label>
+			<p></p>
+		</div>
+		<div>
+			<button type="submit">発注する</button>
+		</div>
+	</form>
 
 </body>
 
