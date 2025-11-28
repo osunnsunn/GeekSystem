@@ -10,7 +10,7 @@ public interface GoodsService {
 	List<Goods> findAll();
     List<Goods> search(GoodsSearchForm form);
     Goods findById(Integer id);
-    void update(Goods goods);
+    void update(GoodsForm form);
     void delete(Integer id);
     void create(GoodsForm form);
 }

@@ -11,7 +11,7 @@ import com.example.demo.form.GoodsSearchForm;
 import com.example.demo.repository.GoodsRepository;
 
 @Service
-public class GoodsServiceImpl implements GoodsService{
+public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
     private GoodsRepository goodsRepository;
@@ -48,12 +48,43 @@ public class GoodsServiceImpl implements GoodsService{
         return goodsRepository.findById(id).orElse(null);
     }
 
-    public void update(Goods goods) {
+//    public void update(Goods goods) {
+//        goodsRepository.save(goods);
+//    }
+    
+    @Override
+    public void update(GoodsForm form) {
+        Goods goods = goodsRepository.findById(form.getId()).orElse(null);
+        if (goods == null) return;
+
+        goods.setName(form.getName());
+        goods.setDescription(form.getDescription());
+        goods.setSmallCategoryId(form.getSmallCategoryId());
+
+        // makersId が null にならないよう必ずセット
+        if (form.getMakersId() != null) {
+            goods.setMakersId(form.getMakersId());
+        }
+
+        goods.setCostPrice(form.getCostPrice());
+        goods.setRetailPrice(form.getRetailPrice());
+        goods.setSalesPrice(form.getSalesPrice());
+
+        if (form.getImage() != null && !form.getImage().isEmpty()) {
+            String fileName = imageStorageService.storeImage(form.getImage());
+            goods.setImage(fileName);
+        }
+
         goodsRepository.save(goods);
     }
 
+    @Override
     public void delete(Integer id) {
-    	goodsRepository.deleteById(id);
+        Goods goods = goodsRepository.findById(id).orElse(null);
+        if (goods != null) {
+            goods.setDeleted(true);
+            goodsRepository.save(goods);
+        }
     }
     
     @Override
@@ -69,7 +100,7 @@ public class GoodsServiceImpl implements GoodsService{
         goods.setCostPrice(form.getCostPrice());
         goods.setRetailPrice(form.getRetailPrice());
         goods.setSalesPrice(form.getSalesPrice());
-        goods.setImagePath(fileName);
+        goods.setImage(fileName);
 
         goodsRepository.save(goods);
     }

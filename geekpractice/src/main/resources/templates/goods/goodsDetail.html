@@ -35,6 +35,9 @@
 
 	<div class="container2">
 		<label for="goods">商品画像</label>
+		<div>
+			<img th:src="@{'/img/' + ${goods.image}}" alt="商品画像">
+		</div>
 	</div>
 
 	<div class="container3">

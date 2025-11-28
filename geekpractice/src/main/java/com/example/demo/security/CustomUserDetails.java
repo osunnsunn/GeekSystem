@@ -21,6 +21,10 @@ public class CustomUserDetails implements UserDetails {
     public Users getUser() {
         return this.user;
     }
+    
+    public Integer getStoreId() {
+        return user.getStoresId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,5 +52,5 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+    
 }
-//11/27途中

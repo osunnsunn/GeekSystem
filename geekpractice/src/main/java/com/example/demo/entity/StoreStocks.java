@@ -10,38 +10,39 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import lombok.Data;
 
-@Data
 @Entity
-@Table(name = "order_details")
-public class OrderDetails {
+@Table(name = "store_stocks", uniqueConstraints = {@UniqueConstraint(columnNames = {"stores_id", "goods_id"})})
+@Data
+public class StoreStocks {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "orders_id", nullable = false)
-    private Integer ordersId;
+    @Column(name = "stores_id", nullable = false)
+    private Integer storesId;
 
     @Column(name = "goods_id", nullable = false)
     private Integer goodsId;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Integer quantity = 0;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "orders_id", insertable = false, updatable = false)
-    private Orders orders;
     
     @ManyToOne
-    @JoinColumn(name = "goods_id", insertable = false, updatable = false)
+    @JoinColumn(name = "stores_id", nullable = false,insertable = false, updatable = false)
+    private Stores store;
+
+    @ManyToOne
+    @JoinColumn(name = "goods_id", nullable = false,insertable = false, updatable = false)
     private Goods goods;
 }

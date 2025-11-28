@@ -15,6 +15,6 @@ public class GoodsData {
     private String retailPrice;
     private String salesPrice;
 
-    private String imagePath;
+    private String image;
 
 }

@@ -15,10 +15,22 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/home"><button>戻る</butto></a>
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
 		</div>
 	</header>
-	<div class="controller"></div>
+
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th>商品名</th>
+				<th>在庫数</th>
+			</tr>
+			<tr th:each="stock : ${goodsStockList}">
+				<td th:text="${stock.name}">商品名</td>
+				<td th:text="${stock.quantity}">0</td>
+			</tr>
+		</table>
+	</div>
 
 </body>
 

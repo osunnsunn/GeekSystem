@@ -15,10 +15,42 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			<a href="/home"><button>戻る</butto></a>
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
 		</div>
 	</header>
-	<div class="controller"></div>
+
+	<div class="container">
+		<div>
+			<label>発注店舗</label>
+			<p th:text="${storesId}"></p>
+			<p th:text="${storesName}"></p>
+		</div>
+		<div>
+			<label>発注者</label>
+			<p th:text="${usersId}"></p>
+			<p th:text="${userName}"></p>
+		</div>
+
+		<table border="1">
+			<tr>
+				<th class="Width-1">発注ID</th>
+				<th class="width-2">商品名・数量</th>
+				<th class="Width-4">発注者ID</th>
+				<th class="width-5">発注日時</th>
+			</tr>
+			<tr th:each="order : ${ordersList}">
+			    <td th:text="${order.id}"></td>
+			    <td>
+			        <span th:each="detail : ${order.orderDetails}">
+			            <span th:text="${detail.goods.name}"></span>
+			            <span th:text="${detail.quantity}"></span><br/>
+			        </span>
+			    </td>
+			    <td th:text="${order.usersId}"></td>
+				<td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+			</tr>
+		</table>
+	</div>
 
 </body>
 

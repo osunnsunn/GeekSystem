@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class GoodsForm {
 	
+	private Integer id;
+	
 	@NotNull(message = " メーカーIDがありません")
 	private Integer makersId;
 

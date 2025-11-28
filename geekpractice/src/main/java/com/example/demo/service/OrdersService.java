@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -9,45 +10,50 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.OrderDetails;
 import com.example.demo.entity.Orders;
-import com.example.demo.entity.Users;
 import com.example.demo.form.OrderForm;
+import com.example.demo.repository.GoodsRepository;
 import com.example.demo.repository.OrderDetailsRepository;
 import com.example.demo.repository.OrdersRepository;
-import com.example.demo.repository.UsersRepository;
 
 @Service
 public class OrdersService {
 
-	@Autowired
-	private OrdersRepository ordersRepository;
+    @Autowired
+    private OrdersRepository ordersRepository;
 
-	@Autowired
-	private OrderDetailsRepository orderDetailsRepository;
-	
-	@Autowired
-	private UsersRepository usersRepository;
+    @Autowired
+    private OrderDetailsRepository orderDetailsRepository;
 
-	@Transactional
-	public Orders createOrder(OrderForm form, Users user) {
+    @Autowired
+    private GoodsRepository goodsRepository;
+    
+    @Autowired
+    private StoreStocksService storeStocksService;
 
-		Orders order = new Orders();
-		order.setUsersId(user.getId());
-		order.setStoresId(user.getStoresId());
-		Orders savedOrder = ordersRepository.save(order);
+    @Transactional
+    public void createOrder(OrderForm form) {
 
-		OrderDetails details = new OrderDetails();
-		details.setOrdersId(savedOrder.getId());
-		details.setGoodsId(form.getGoodsId());
-//		details.setQuantity(form.getQuantity());
-		orderDetailsRepository.save(details);
+    	Orders order = new Orders();
+        order.setUsersId(form.getUsersId());
+        order.setStoresId(form.getStoresId());
+        order.setCreatedAt(LocalDateTime.now());
+        order.setUpdatedAt(LocalDateTime.now());
+        ordersRepository.save(order);
 
-		return savedOrder;
-	}
-	
-	public List<Users> getAllUsers(){
-		return usersRepository.findAll();
-	}
+        OrderDetails details = new OrderDetails();
+        details.setOrdersId(order.getId());
+        details.setGoodsId(form.getGoodsId());
+        details.setQuantity(form.getQuantity());
+        details.setCreatedAt(LocalDateTime.now());
+        details.setUpdatedAt(LocalDateTime.now());
+        orderDetailsRepository.save(details);
 
+        storeStocksService.addStock(form.getStoresId(), form.getGoodsId(), form.getQuantity());
+    }
+    
+    @Transactional
+    public List<Orders> getOrdersHistoryByStore(Integer storeId) {
+        return ordersRepository.findByStoresIdWithDetails(storeId);
+    }
+  
 }
-
-//11/27途中

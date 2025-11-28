@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageStorageService {
 
-    private final String UPLOAD_DIR = "uploads/";
+	private final String UPLOAD_DIR = "src/main/resources/static/img/";
 
     public String storeImage(MultipartFile imageFile) {
 

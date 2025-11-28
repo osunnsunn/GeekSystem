@@ -19,7 +19,7 @@
 		</div>
 	</header>
 
-	<form method="post" th:action="@{'/goods/goods/' + ${goods.id} + '/Edit'}" th:object="${goods}">
+	<form method="post" th:action="@{'/goods/goods/' + ${goods.id} + '/Edit'}" th:object="${goods}" enctype="multipart/form-data">
 
 		<div class="container">
 			<div>
@@ -44,6 +44,8 @@
 
 		<div class="container2">
 			<label>商品画像</label>
+			<input type="file" th:field="*{image}" accept="image/*">
+			<img th:if="${goods.image != null}" th:src="@{'/images/' + ${goods.image}}" alt="画像">
 		</div>
 
 		<div class="container3">

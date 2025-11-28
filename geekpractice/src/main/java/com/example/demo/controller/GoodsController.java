@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Goods;
+import com.example.demo.entity.Orders;
+import com.example.demo.entity.Stores;
+import com.example.demo.entity.Users;
 import com.example.demo.form.GoodsForm;
 import com.example.demo.form.GoodsSearchForm;
 import com.example.demo.form.OrderForm;
@@ -21,6 +27,8 @@ import com.example.demo.service.CategoryService;
 import com.example.demo.service.GoodsServiceImpl;
 import com.example.demo.service.MakersService;
 import com.example.demo.service.OrdersService;
+import com.example.demo.service.StoreStockService;
+import com.example.demo.service.StoresService;
 
 @Controller
 public class GoodsController {
@@ -36,6 +44,12 @@ public class GoodsController {
 
 	@Autowired
 	private OrdersService ordersService;
+
+	@Autowired
+	private StoresService storesService;
+	
+	@Autowired
+	private StoreStockService storeStockService;
 
 	@GetMapping("/goods/goodsControl") //商品管理 画面
 	public String goodsControl() {
@@ -79,16 +93,32 @@ public class GoodsController {
 	}
 
 	@PostMapping("/goods/goods/{id}/Edit") //編集処理
-	public String editGoods(@PathVariable Integer id, @ModelAttribute Goods goods, Model model) {
-
-		if (goods.getName() == null || goods.getName().isEmpty()) {
-			model.addAttribute("errorMessage", "商品名は必須です。");
+		public String editGoods(@PathVariable Integer id, @ModelAttribute GoodsForm form, Model model) {
+		
+		if (form.getName() == null || form.getName().isEmpty()) {
+	        model.addAttribute("errorMessage", "商品名は必須です。");
+	        model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	        model.addAttribute("makersList", makersService.getAllMakers());
+	        return "goods/goodsEdit";
+	    }
+	    form.setId(id);
+	    goodsService.update(form);
+	    model.addAttribute("successMessage", "商品情報を更新しました！");
+	    model.addAttribute("goods", goodsService.findById(id));
+	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	    model.addAttribute("makersList", makersService.getAllMakers());
+	
+	
+//			if (goods.getName() == null || goods.getName().isEmpty()) {
+//				model.addAttribute("errorMessage", "商品名は必須です。");
+//				return "goods/goodsEdit";
+//			}
+//  			goods.setId(id);
+//  			goodsService.update(goods);
+//			model.addAttribute("successMessage", "商品情報を更新しました！");
+			
 			return "goods/goodsEdit";
 		}
-		goodsService.update(goods);
-		model.addAttribute("successMessage", "商品情報を更新しました！");
-		return "goods/goodsEdit";
-	}
 
 	@PostMapping("/goods/goodsDetail/{id}") //削除処理
 	public String deleteGoods(@PathVariable Integer id, Model model) {
@@ -102,30 +132,77 @@ public class GoodsController {
 
 	@GetMapping("/goods/goodsOrder") //商品発注 画面
 	public String goodsOrder(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-	    model.addAttribute("usersList", ordersService.getAllUsers());
-	    model.addAttribute("goodsList", goodsService.findAll());
-	    model.addAttribute("OrderForm", new OrderForm());
-	    return "goods/goodsOrder";
+
+		if (userDetails == null) {
+			return "redirect:/login";
+		}
+
+		Users loginUser = userDetails.getUser();
+
+		model.addAttribute("storesId", loginUser.getStoresId());
+		model.addAttribute("storesName",
+				Optional.ofNullable(storesService.getStoresById(loginUser.getStoresId())).map(Stores::getName));
+		model.addAttribute("usersId", loginUser.getId());
+		model.addAttribute("userName", loginUser.getLastName() + " " + loginUser.getFirstName());
+		model.addAttribute("goodsList", goodsService.findAll());
+		model.addAttribute("OrderForm", new OrderForm());
+		return "goods/goodsOrder";
 	}
 
 	@PostMapping("/goods/goodsOrder") //発注処理
-	public String submitOrder(@ModelAttribute OrderForm form, Model model) {
-		
-		model.addAttribute("orderForm", new OrderForm());
-		model.addAttribute("usersList", ordersService.getAllUsers());
-	    model.addAttribute("goodsList", goodsService.findAll());
+	public String submitOrder(@ModelAttribute OrderForm form, Model model,
+			@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (userDetails != null) {
+			Users loginUser = userDetails.getUser();
+			form.setUsersId(loginUser.getId());
+			form.setStoresId(loginUser.getStoresId());
+		}
+
+		// 注文を作成
+		ordersService.createOrder(form);
+
+		// 再表示用のモデル設定
+		model.addAttribute("OrderForm", form);
+		model.addAttribute("storesName", Optional.ofNullable(storesService.getStoresById(form.getStoresId()))
+				.map(Stores::getName).orElse("未設定"));
+		model.addAttribute("userName",
+				userDetails != null ? userDetails.getUser().getLastName() + " " + userDetails.getUser().getFirstName()
+						: "未設定");
+		model.addAttribute("goodsList", goodsService.findAll());
 		model.addAttribute("successMessage", "発注が完了しました！");
+
 		return "goods/goodsOrder";
 	}
 
 	@GetMapping("/goods/goodsHistory") //発注履歴 画面
-	public String goodsHistory() {
-		return "/goods/goodsHistory";
+	public String goodsHistory(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+		if (userDetails == null) {
+			return "redirect:/login";
+		}
+
+		Users loginUser = userDetails.getUser();
+		Integer storeId = loginUser.getStoresId();
+
+		model.addAttribute("storesId", storeId);
+		model.addAttribute("storesName", storesService.getStoresById(storeId).getName());
+		model.addAttribute("usersId", loginUser.getId());
+		model.addAttribute("userName", loginUser.getLastName() + " " + loginUser.getFirstName());
+
+		List<Orders> ordersList = ordersService.getOrdersHistoryByStore(storeId);
+		model.addAttribute("ordersList", ordersList);
+
+		return "goods/goodsHistory";
 	}
 
 	@GetMapping("/goods/goodsStock") //商品在庫 画面
-	public String goodsStock() {
-		return "/goods/goodsStock";
+	public String showGoodsStock(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+	    Integer storeId = userDetails.getStoreId();
+	    List<StoreStockService.GoodsStock> goodsStockList = storeStockService.getGoodsStockByStore(storeId);
+
+	    model.addAttribute("goodsStockList", goodsStockList);
+	    return "goods/goodsStock";
 	}
 
 	@GetMapping("/goods/goodsCreate") //商品作成 画面
@@ -163,5 +240,3 @@ public class GoodsController {
 	}
 
 }
-
-//11/27途中

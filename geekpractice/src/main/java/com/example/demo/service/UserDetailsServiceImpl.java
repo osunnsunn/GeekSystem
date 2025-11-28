@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Users;
 import com.example.demo.repository.UsersRepository;
+import com.example.demo.security.CustomUserDetails;
 
 @Service
 @Primary
@@ -27,9 +27,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    Users user = usersRepository.findByEmail(email)
 	            .orElseThrow(() -> new UsernameNotFoundException("ユーザーが見つかりません: " + email));
 
-	    return User.withUsername(user.getEmail())
-	    		.password(user.getPassword()) 
-	    		.roles("USER")
-	            .build();
+//	    return User.withUsername(user.getEmail())
+//	    		.password(user.getPassword()) 
+//	    		.roles("USER")
+//	            .build();
+	    
+	    return new CustomUserDetails(user);
     }
 }
