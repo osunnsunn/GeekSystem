@@ -88,6 +88,7 @@ public class RolesService {
         users.setPhone(updatedUsers.getPhone());
 
         if (updatedUsers.getPassword() != null && !updatedUsers.getPassword().isEmpty()) {
+        	System.out.println(updatedUsers.getPassword());
             String hashedPassword = passwordEncoder.encode(updatedUsers.getPassword());
             users.setPassword(hashedPassword);
         }

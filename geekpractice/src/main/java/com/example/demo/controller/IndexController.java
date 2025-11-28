@@ -17,7 +17,6 @@ public class IndexController {
 	@GetMapping("/login")
 	public String showLoginPage(HttpSession session, Model model) {
 		
-		System.out.println("ログイン画面");
 		String errorMessage = (String) session.getAttribute("errorMessage");
 		if (errorMessage != null) {
 			model.addAttribute("errorMessage", errorMessage);
