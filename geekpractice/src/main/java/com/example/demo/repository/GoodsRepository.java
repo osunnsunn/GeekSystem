@@ -10,15 +10,19 @@ import com.example.demo.entity.Goods;
 
 public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	
-	List<Goods> findBySmallCategoryId(Integer smallCategoryId); //カテゴリID検索
+	List<Goods> findByDeletedFalse(); 
 	
-	List<Goods> findByNameContaining(String name); //商品名で検索
+	List<Goods> findByDeletedFalseAndSmallCategoryId(Integer smallCategoryId); //カテゴリID検索
 	
-	List<Goods> findBySmallCategoryIdAndNameContaining(Integer smallCategoryId, String name); //カテゴリIDと商品IDで検索
+	List<Goods> findByDeletedFalseAndNameContaining(String name); //商品名で検索
 	
-	Page<Goods> findBySmallCategoryId(Integer smallCategoryId, Pageable pageable);
+	List<Goods> findByDeletedFalseAndSmallCategoryIdAndNameContaining(Integer smallCategoryId, String name); //カテゴリIDと商品IDで検索
+	
+	Page<Goods> findByDeletedFalse(Pageable pageable);
+	
+	Page<Goods> findByDeletedFalseAndSmallCategoryId(Integer smallCategoryId, Pageable pageable);
 
-    Page<Goods> findByNameContaining(String name, Pageable pageable);
+    Page<Goods> findByDeletedFalseAndNameContaining(String name, Pageable pageable);
 
-    Page<Goods> findBySmallCategoryIdAndNameContaining(Integer smallCategoryId, String name, Pageable pageable);
+    Page<Goods> findByDeletedFalseAndSmallCategoryIdAndNameContaining(Integer smallCategoryId, String name, Pageable pageable);
 }

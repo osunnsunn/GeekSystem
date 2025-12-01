@@ -23,7 +23,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public List<Goods> findAll() {
-        return goodsRepository.findAll();
+        return goodsRepository.findByDeletedFalse();
     }
 
     @Override
@@ -38,11 +38,11 @@ public class GoodsServiceImpl implements GoodsService {
         }
 
         if (categoryId != null && categoryId != 0 && goodsName != null && !goodsName.isEmpty()) {
-            return goodsRepository.findBySmallCategoryIdAndNameContaining(categoryId, goodsName);
+            return goodsRepository.findByDeletedFalseAndSmallCategoryIdAndNameContaining(categoryId, goodsName);
         } else if (categoryId != null && categoryId != 0) {
-            return goodsRepository.findBySmallCategoryId(categoryId);
+            return goodsRepository.findByDeletedFalseAndSmallCategoryId(categoryId);
         } else {
-            return goodsRepository.findByNameContaining(goodsName);
+            return goodsRepository.findByDeletedFalseAndNameContaining(goodsName);
         }
     }
     
@@ -52,28 +52,23 @@ public class GoodsServiceImpl implements GoodsService {
         Integer categoryId = form.getSmallCategoryId();
         String goodsName = form.getGoodsName();
 
-        if ((categoryId == null || categoryId == 0) &&
-            (goodsName == null || goodsName.isEmpty())) {
+        if ((categoryId == null || categoryId == 0) && (goodsName == null || goodsName.isEmpty())) {
             return goodsRepository.findAll(pageable);
         }
         if (categoryId != null && categoryId != 0 && goodsName != null && !goodsName.isEmpty()) {
-            return goodsRepository.findBySmallCategoryIdAndNameContaining(categoryId, goodsName, pageable);
+            return goodsRepository.findByDeletedFalseAndSmallCategoryIdAndNameContaining(categoryId, goodsName, pageable);
         }
         if (categoryId != null && categoryId != 0) {
-            return goodsRepository.findBySmallCategoryId(categoryId, pageable);
+            return goodsRepository.findByDeletedFalseAndSmallCategoryId(categoryId, pageable);
         }
 
-        return goodsRepository.findByNameContaining(goodsName, pageable);
+        return goodsRepository.findByDeletedFalseAndNameContaining(goodsName, pageable);
     }
     
     public Goods findById(Integer id) {
         return goodsRepository.findById(id).orElse(null);
     }
 
-//    public void update(Goods goods) {
-//        goodsRepository.save(goods);
-//    }
-    
     @Override
     public void update(GoodsForm form) {
         Goods goods = goodsRepository.findById(form.getId()).orElse(null);

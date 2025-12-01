@@ -31,6 +31,7 @@
 				<button type="submit">ログイン</button>
 			</div>
 			<span th:if="${errorMessage}" style="color:red;" th:text="${errorMessage}"></span>
+			<span th:if="${logoutMessage}" style="color:green;" th:text="${logoutMessage}"></span>
 
 		</form>
 	</div>
