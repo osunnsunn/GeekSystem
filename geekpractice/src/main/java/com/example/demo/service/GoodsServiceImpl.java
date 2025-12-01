@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Goods;
@@ -42,6 +44,26 @@ public class GoodsServiceImpl implements GoodsService {
         } else {
             return goodsRepository.findByNameContaining(goodsName);
         }
+    }
+    
+    @Override
+    public Page<Goods> search(GoodsSearchForm form, Pageable pageable) {
+
+        Integer categoryId = form.getSmallCategoryId();
+        String goodsName = form.getGoodsName();
+
+        if ((categoryId == null || categoryId == 0) &&
+            (goodsName == null || goodsName.isEmpty())) {
+            return goodsRepository.findAll(pageable);
+        }
+        if (categoryId != null && categoryId != 0 && goodsName != null && !goodsName.isEmpty()) {
+            return goodsRepository.findBySmallCategoryIdAndNameContaining(categoryId, goodsName, pageable);
+        }
+        if (categoryId != null && categoryId != 0) {
+            return goodsRepository.findBySmallCategoryId(categoryId, pageable);
+        }
+
+        return goodsRepository.findByNameContaining(goodsName, pageable);
     }
     
     public Goods findById(Integer id) {

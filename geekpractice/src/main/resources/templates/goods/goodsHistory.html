@@ -34,19 +34,18 @@
 		<table border="1">
 			<tr>
 				<th class="Width-1">発注ID</th>
-				<th class="width-2">商品名・数量</th>
+				<th class="width-2">商品名</th>
+				<th class="width-2">数量</th>
 				<th class="Width-4">発注者ID</th>
 				<th class="width-5">発注日時</th>
 			</tr>
 			<tr th:each="order : ${ordersList}">
-			    <td th:text="${order.id}"></td>
-			    <td>
-			        <span th:each="detail : ${order.orderDetails}">
-			            <span th:text="${detail.goods.name}"></span>
-			            <span th:text="${detail.quantity}"></span><br/>
-			        </span>
-			    </td>
-			    <td th:text="${order.usersId}"></td>
+				<td th:text="${order.id}"></td>
+				<span th:each="detail : ${order.orderDetails}">
+					<td><span th:text="${detail.goods.name}"></span></td>
+					<td><span th:text="${detail.quantity}"></span></td>
+				</span>
+				<td th:text="${order.usersId}"></td>
 				<td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
 			</tr>
 		</table>

@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Makers;
+import com.example.demo.entity.Users;
 import com.example.demo.form.MakersForm;
+import com.example.demo.security.CustomUserDetails;
+import com.example.demo.service.AuthService;
 import com.example.demo.service.MakersService;
 
 @Controller
@@ -22,6 +26,9 @@ public class MakersController {
 	
 	@Autowired
 	private MakersService makersService;
+	
+	@Autowired
+	private AuthService authService;
 	
 	@GetMapping("/makers/makersControl") //メーカー管理画面
 	public String makers() {
@@ -36,7 +43,15 @@ public class MakersController {
 	}
 	
 	@GetMapping("/makers/makers/{id}") //メーカー詳細画面
-	public String showMakersDetail(@PathVariable Integer id, Model model) {
+	public String showMakersDetail(@PathVariable Integer id, Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
+		
+		Users currentUser = loginUser.getUser();
+		if (!authService.isAdmin(currentUser)) {
+		    model.addAttribute("errorMessage", "管理者権限が必要です");
+		    List<Makers> makersList = makersService.getAllMakers();
+			model.addAttribute("makersList", makersList);
+			return "makers/makersList";
+		}
 		Makers makers = makersService.getMakersById(id);
 		if(makers == null) {
 			model.addAttribute("errorMessage", "該当店舗が見つかりません");
@@ -78,8 +93,14 @@ public class MakersController {
 	}
 	
 	@GetMapping("/makers/makersCreate") //メーカー作成画面
-	public String showMakersCreateForm(Model model) {
-		model.addAttribute("malersList", makersService.getAllMakers());
+	public String showMakersCreateForm(Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
+		
+		Users currentUser = loginUser.getUser();
+		if (!authService.isAdmin(currentUser)) {
+		    model.addAttribute("errorMessage", "管理者権限が必要です");
+		    return "makers/makersControl";
+		}
+		model.addAttribute("maersList", makersService.getAllMakers());
 		model.addAttribute("makersForm", new MakersForm());
 		return "makers/makersCreate";
 	}

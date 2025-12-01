@@ -6,6 +6,9 @@ import java.util.Optional;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Goods;
 import com.example.demo.entity.Orders;
@@ -67,11 +71,19 @@ public class GoodsController {
 	}
 
 	@GetMapping("/goods/search") //商品一覧 検索
-	public String searchGoods(@ModelAttribute GoodsSearchForm form, Model model) {
+	
+	public String searchGoods(@ModelAttribute GoodsSearchForm form, @RequestParam(defaultValue = "0") int page, Model model) {
 
-		model.addAttribute("goodsList", goodsService.search(form));
-		model.addAttribute("smallCategoryList", categoryService.findAllSmall());
-		model.addAttribute("goodsSearchForm", form);
+	    Pageable pageable = PageRequest.of(page, 10);
+
+	    Page<Goods> goodsPage = goodsService.search(form, pageable);
+
+	    model.addAttribute("goodsList", goodsPage.getContent());
+	    model.addAttribute("goodsPage", goodsPage);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", goodsPage.getTotalPages());
+	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	    model.addAttribute("goodsSearchForm", form);
 
 		return "goods/goodsList";
 	}
@@ -107,15 +119,6 @@ public class GoodsController {
 	    model.addAttribute("goods", goodsService.findById(id));
 	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 	    model.addAttribute("makersList", makersService.getAllMakers());
-	
-	
-//			if (goods.getName() == null || goods.getName().isEmpty()) {
-//				model.addAttribute("errorMessage", "商品名は必須です。");
-//				return "goods/goodsEdit";
-//			}
-//  			goods.setId(id);
-//  			goodsService.update(goods);
-//			model.addAttribute("successMessage", "商品情報を更新しました！");
 			
 			return "goods/goodsEdit";
 		}

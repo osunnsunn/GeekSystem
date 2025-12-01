@@ -15,7 +15,7 @@
 			<form th:action="@{/login}" method="post">
 				<button type="submit" class="loguot">ログアウト</button>
 			</form>
-			s
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
 		</div>
 	</header>
 
@@ -23,7 +23,7 @@
 		<div>
 			<label for="smallCategory">カテゴリ</label>
 			<select id="smallCategoryId" th:field="*{smallCategoryId}">
-				<option value="" disabled selected>--カテゴリを選択--</option>
+				<option value="" selected>--カテゴリを選択--</option>
 				<option th:each="cat : ${smallCategoryList}" th:value="${cat.id}" th:text="${cat.name}"></option>
 			</select>
 		</div>
@@ -53,6 +53,28 @@
 				<td><a th:href="@{'/goods/goodsDetail/' + ${goods.id}}">詳細/編集</a></td>
 			</tr>
 		</table>
+
+		<div th:if="${totalPages > 1}" class="pagination" style="margin-top: 20px; text-align: center;">
+
+			<!-- 前へ -->
+			<a th:if="${currentPage > 0}"
+				th:href="@{/goods/search(page=${currentPage - 1}, smallCategoryId=${goodsSearchForm.smallCategoryId}, goodsName=${goodsSearchForm.goodsName})}">
+				前へ
+			</a>
+
+			<!-- ページ番号 -->
+			<span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+				<a th:href="@{/goods/search(page=${i}, smallCategoryId=${goodsSearchForm.smallCategoryId}, goodsName=${goodsSearchForm.goodsName})}"
+					th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''">
+				</a>
+			</span>
+
+			<!-- 次へ -->
+			<a th:if="${currentPage + 1 < totalPages}"
+				th:href="@{/goods/search(page=${currentPage + 1}, smallCategoryId=${goodsSearchForm.smallCategoryId}, goodsName=${goodsSearchForm.goodsName})}">
+				次へ
+			</a>
+		</div>
 	</div>
 
 </body>

@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Users;
 import com.example.demo.form.UsersForm;
+import com.example.demo.security.CustomUserDetails;
+import com.example.demo.service.AuthService;
 import com.example.demo.service.RolesService;
 
 @Controller
@@ -22,6 +25,9 @@ public class RolesController {
 
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private AuthService authService;
 
 	@GetMapping("/admin/rolesControl") //管理者管理画面
 	public String roles() {
@@ -29,7 +35,13 @@ public class RolesController {
 	}
 
 	@GetMapping("/admin/rolesCreate") //管理者作成画面
-	public String showRolesCreateForm(Model model) {
+	public String showRolesCreateForm(Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
+		
+		Users currentUser = loginUser.getUser();
+		if (!authService.isAdmin(currentUser)) {
+		    model.addAttribute("errorMessage", "管理者権限が必要です");
+			return "admin/rolesControl";
+		}
 		model.addAttribute("rolesList", rolesService.getAllRoles());
 		model.addAttribute("permissionsList", rolesService.getAllPermissions());
 		model.addAttribute("storesList", rolesService.getAllStores());
@@ -64,7 +76,15 @@ public class RolesController {
 	}
 
 	@GetMapping("/admin/roles/{id}") //管理者詳細画面
-	public String showUsersDetail(@PathVariable Integer id, Model model) {
+	public String showUsersDetail(@PathVariable Integer id, Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
+		
+		Users currentUser = loginUser.getUser();
+		if (!authService.isAdmin(currentUser)) {
+		    model.addAttribute("errorMessage", "管理者権限が必要です");
+		    List<Users> usersList = rolesService.getAllUsers();
+			model.addAttribute("usersList", usersList);
+			return "admin/rolesList";
+		}
 
 		Users users = rolesService.getUserById(id);
 		if (users == null) {

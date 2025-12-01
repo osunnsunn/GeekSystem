@@ -53,3 +53,11 @@ a {
 	color: white;
 	background-color: green;
 }
+
+.container a{
+	color: blue;
+}
+
+.page a{
+	color: blue;
+}
