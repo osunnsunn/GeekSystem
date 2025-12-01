@@ -16,6 +16,13 @@
 	background-color: limegreen;
 }
 
-containar a{
+.profile{
+	width: 600px;
+	margin: 20px;
+	padding: 10px;
+	background-color: lightgreen;
+}
+
+.profile a{
 	color: blue;
 }

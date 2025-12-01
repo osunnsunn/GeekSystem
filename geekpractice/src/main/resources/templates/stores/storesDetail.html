@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/store.css}">
 	<title>店舗詳細</title>
 </head>
 
@@ -20,23 +21,14 @@
 	</header>
 
 	<div class="container">
-		<div>
-			<p>店舗ID</p>
-			<p th:text="${stores.id}"></p>
-		</div>
-		<div>
-			<label for="stores">店舗</label>
-			<p th:text="${stores.name}"></p>
-		</div>
-		<div>
-			<p>住所</p>
-			<p th:text="${stores.address}"></p>
-		</div>
+		<p>店舗ID：<span th:text="${stores.id}"></span></p>
+		<p>店舗：<span th:text="${stores.name}"></span></p>
+		<p>住所：<span th:text="${stores.address}"></span></p>
 	</div>
 
 	<div class="btn">
 		<a th:href="@{/stores/stores/{id}/Edit(id=${stores.id})}">
-			<button type="button">編集</button>
+			<button type="button">編集する</button>
 		</a>
 	</div>
 

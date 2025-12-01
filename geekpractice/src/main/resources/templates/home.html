@@ -15,12 +15,16 @@
 			<button type="submit" class="loguot">ログアウト</button>
 		</form>
 	</header>
-
-	<div class="container" th:if="${currentUser}">
-		<p>ログインユーザー: <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span></p>
-		<p>メール: <span th:text="${currentUser.email}"></span></p>
-		<p>役職: <span th:text="${roleName}"></span></p>
-		<p><a th:href="@{'/admin/roles/' + ${currentUser.id} + '/Edit'}">プロフィール編集</a></p>
+	
+	<div class="profile" th:if="${currentUser}">
+		<div>
+			<p>ログインユーザー: <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span></p>
+			<p>メール: <span th:text="${currentUser.email}"></span></p>
+		</div>
+		<div>
+			<p>役職: <span th:text="${roleName}"></span></p>
+			<p><a th:href="@{'/admin/roles/' + ${currentUser.id} + '/Edit'}">プロフィール編集</a></p>
+		</div>
 	</div>
 
 	<div class="top">
@@ -40,6 +44,7 @@
 			<a href="/admin/rolesControl"><button>管理者管理</butto></a>
 		</div>
 	</div>
+
 </body>
 
 </html>

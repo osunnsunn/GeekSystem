@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/store.css}">
 	<title>管理者編集</title>
 </head>
 
@@ -23,16 +24,15 @@
 
 			<div class="container">
 				<div>
-					<label>店舗ID</label>
-					<p th:text="${id}"></p>
+					<p>店舗ID：<span th:text="${id}"></span></p>
 				</div>
 				<div>
-					<label>店舗名(変更不可)</label>
+					<label>店舗名(変更不可)：</label>
 					<input type="text" th:field="*{name}" readonly>
 					<p th:text="${name}"></p>
 				</div>
 				<div>
-					<label>住所</label>
+					<label>住所：</label>
 					<input type="text" th:field="*{address}">
 					<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color:red"></p>
 				</div>
@@ -41,7 +41,7 @@
 			<div class="btn">
 				<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
-				<button type="submit">更新</button>
+				<button type="submit">更新する</button>
 			</div>
 
 		</form>

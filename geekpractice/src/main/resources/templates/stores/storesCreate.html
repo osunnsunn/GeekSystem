@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/store.css}">
 	<link rel="stylesheet" th:href="@{/css/admin/rolesCreate.css}">
 	<title>Geek_Top</title>
 </head>
@@ -24,12 +25,12 @@
 
 			<div class="container">
 				<div>
-					<p>店舗名</p>
+					<p>店舗名：</p>
 					<input type="text" th:field="*{name}">
 					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
 				</div>
 				<div>
-					<p>住所</p>
+					<p>住所：</p>
 					<input type="text" th:field="*{address}">
 
 					<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red;"></p>
