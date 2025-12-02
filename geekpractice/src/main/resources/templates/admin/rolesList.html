@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/admin/rolesList.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
 	<title>管理者一覧</title>
 </head>
 
@@ -24,9 +24,9 @@
 		<table border="1">
 			<tr>
 				<th class="width-1">役職名</th>
-				<th class="width-2">権限</th>
+				<th class="width-1">権限</th>
 				<th class="width-3">ユーザー名</th>
-				<th class="width-4">詳細/編集</th>
+				<th class="width-1">詳細/編集</th>
 			</tr>
 			<tr th:each="users : ${usersList}">
 				<td><span th:text="${users.roles?.name}"></span></td>

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/category/category.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
 	<title>小カテゴリ一覧</title>
 </head>
 
@@ -24,7 +24,7 @@
 		<table border="1">
 			<tr>
 				<th class="width-1">小カテゴリID</th>
-				<th class="width-2">小カテゴリ名</th>
+				<th class="width-3">小カテゴリ名</th>
 			</tr>
 			<tr th:each="smallCategory : ${smallCategoryList}">
 				<td><span th:text="${smallCategory.id}"></span></td>

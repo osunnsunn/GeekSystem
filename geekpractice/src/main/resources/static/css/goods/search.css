@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.search {
+	display: flex;
+	gap: 30px;
+	width: 600px;
+	margin: 10px auto;
+	padding: 10px 40px;
+	border-radius: 5px;
+	box-shadow: 0 0 2px black;
+}
+
+.search button {
+	background-color: rgb(43, 99, 59);
+	padding: 3px 10px;
+}
+
+.search button:hover {
+	background-color: rgb(73, 161, 80);
+}
+
+.search button:active {
+	background-color: rgb(43, 99, 59);
+}

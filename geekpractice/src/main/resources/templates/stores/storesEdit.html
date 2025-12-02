@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/store.css}">
+	<link rel="stylesheet" th:href="@{/css/store/store.css}">
 	<title>管理者編集</title>
 </head>
 
@@ -19,10 +19,10 @@
 		</div>
 	</header>
 
-	<div>
+	<div class="container">
 		<form method="post" th:action="@{/stores/stores/{id}/Edit(id=${stores.id})}" th:object="${stores}">
 
-			<div class="container">
+			<div class="store_box">
 				<div>
 					<p>店舗ID：<span th:text="${id}"></span></p>
 				</div>
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 
-			<div class="btn">
+			<div class="store_btn">
 				<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
 				<button type="submit">更新する</button>

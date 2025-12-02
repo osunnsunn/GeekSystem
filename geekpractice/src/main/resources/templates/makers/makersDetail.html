@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/maker/maker.css}">
 	<title>メーカー詳細</title>
 </head>
 
@@ -20,20 +21,22 @@
 	</header>
 
 	<div class="container">
-		<div>
-			<p>メーカーID</p>
-			<p th:text="${makers.id}"></p>
+		
+		<div class="maker_box">
+			<div>
+				<p>メーカーID：<span th:text="${makers.id}"></span></p>
+			</div>
+			<div>
+				<p>メーカー名：<span th:text="${makers.name}"></span></p>
+			</div>
 		</div>
-		<div>
-			<label for="makers">メーカー名</label>
-			<p th:text="${makers.name}"></p>
-		</div>
-	</div>
 
-	<div class="btn">
-		<a th:href="@{/makers/makers/{id}/Edit(id=${makers.id})}">
-			<button type="button">編集</button>
-		</a>
+		<div class="maker_bth">
+			<a th:href="@{/makers/makers/{id}/Edit(id=${makers.id})}">
+				<button type="button">編集する</button>
+			</a>
+		</div>
+		
 	</div>
 
 </body>

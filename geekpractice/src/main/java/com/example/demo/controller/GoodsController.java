@@ -143,8 +143,7 @@ public class GoodsController {
 		Users loginUser = userDetails.getUser();
 
 		model.addAttribute("storesId", loginUser.getStoresId());
-		model.addAttribute("storesName",
-				Optional.ofNullable(storesService.getStoresById(loginUser.getStoresId())).map(Stores::getName));
+		model.addAttribute("storesName",Optional.ofNullable(storesService.getStoresById(loginUser.getStoresId())).map(Stores::getName).orElse(""));
 		model.addAttribute("usersId", loginUser.getId());
 		model.addAttribute("userName", loginUser.getLastName() + " " + loginUser.getFirstName());
 		model.addAttribute("goodsList", goodsService.findAll());
@@ -162,13 +161,10 @@ public class GoodsController {
 			form.setStoresId(loginUser.getStoresId());
 		}
 
-		// 注文を作成
 		ordersService.createOrder(form);
 
-		// 再表示用のモデル設定
 		model.addAttribute("OrderForm", form);
-		model.addAttribute("storesName", Optional.ofNullable(storesService.getStoresById(form.getStoresId()))
-				.map(Stores::getName).orElse("未設定"));
+		model.addAttribute("storesName", Optional.ofNullable(storesService.getStoresById(form.getStoresId())).map(Stores::getName).orElse("未設定"));
 		model.addAttribute("userName",
 				userDetails != null ? userDetails.getUser().getLastName() + " " + userDetails.getUser().getFirstName()
 						: "未設定");

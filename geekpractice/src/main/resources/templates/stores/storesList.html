@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/stores/storesList.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
 	<title>店舗一覧</title>
 </head>
 
@@ -22,8 +22,8 @@
 		<table border="1">
 			<tr>
 				<th class="width-1">店舗ID</th>
-				<th class="width-2">店舗名</th>
-				<th class="width-3">詳細/編集</th>
+				<th class="width-4">店舗名</th>
+				<th class="width-1">詳細/編集</th>
 			</tr>
 			<tr th:each="stores : ${storesList}">
 				<td><span th:text="${stores.id}"></span></td>

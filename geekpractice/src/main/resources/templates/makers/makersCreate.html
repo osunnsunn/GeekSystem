@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<title>メーカー作成画面</title>
+	<link rel="stylesheet" th:href="@{/css/maker/maker.css}">
+	<title>メーカー作成</title>
 </head>
 <body>
 
@@ -17,19 +18,23 @@
 		</div>
 	</header>
 	
-	<div class="create">
-		<form method="post" th:action="@{/makers/makersCreate}" th:objet="${makersForm}">
-			<div class="container">	
-				<p>メーカー名</p>
+	<div class="container">
+		<form method="post" th:action="@{/makers/makersCreate}" th:object="${makersForm}">
+			
+			<div class="maker_box">	
+				<label>メーカー名：</label>
 				<input type="text" th:field="*{name}">
 				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
 			</div>
-			<div class="bth">
+			
+			<div class="maker_bth">
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
 				<button type="submit">メーカー作成</button>
 			</div>
+			
 		</form>
 	</div>
 
 </body>
+
 </html>

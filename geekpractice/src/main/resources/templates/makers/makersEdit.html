@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/maker/maker.css}">
 	<title>メーカー編集</title>
 </head>
 
@@ -18,25 +19,24 @@
 		</div>
 	</header>
 
-	<div>
+	<div class="container">
 		<form method="post" th:action="@{/makers/makers/{id}/Edit(id=${makers.id})}" th:object="${makers}">
 
-			<div class="container">
+			<div class="maker_box">
 				<div>
-					<label>メーカーID</label>
-					<p th:text="${id}"></p>
+					<p>メーカーID：<span th:text="${id}"></span></p>
 				</div>
 				<div>
-					<label>メーカー名</label>
+					<label>メーカー名：</label>
 					<input type="text" th:field="*{name}">
 					<p th:text="${name}"></p>
 				</div>
 			</div>
 
-			<div class="btn">
-				<p th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></p>
+			<div class="maker_bth">
+				<span th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></span>
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
-				<button type="submit">更新</button>
+				<button type="submit">更新する</button>
 			</div>
 
 		</form>

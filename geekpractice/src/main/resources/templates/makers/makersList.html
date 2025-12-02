@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
 	<title>Insert title here</title>
 </head>
 
@@ -20,11 +21,11 @@
 	</header>
 
 	<div class="container">
-		<table>
+		<table border="1">
 			<tr>
 				<th class="Width-1">メーカーID</th>
-				<th class="width-2">メーカ名</th>
-				<th class="width-3">詳細/編集</th>
+				<th class="width-3">メーカ名</th>
+				<th class="width-1">詳細/編集</th>
 			</tr>
 			<tr th:each="makers : ${makersList}">
 				<td><span th:text="${makers.id}"></span></td>

@@ -4,10 +4,11 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<title>Geek_Top</title>
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<title>メーカー管理</title>
 </head>
-
-<body>
+	
+<body>	
 	<header class="header">
 		<h1>メーカー管理</h1>
 		<div class="box">
@@ -17,15 +18,17 @@
 			<a href="/home"><button>戻る</butto></a>
 		</div>
 	</header>
+	
 	<div class="top">
 		<div>
-			<a href="/makers/makersList"><button>メーカー一覧</butto></a>
+			<a href="/makers/makersList"><button>メーカ一覧</butto></a>
 		</div>
 		<div>
-			<a href="/makers/makersCreate"><button>メーカー作成</butto></a>
+			<a href="/makers/makersCreate"><button>メーカ作成</butto></a>
 		</div>
 	</div>
-	
 	<span th:if="${errorMessage}" th:text="${errorMessage}"></span>
 	
 </body>
+
+</html>

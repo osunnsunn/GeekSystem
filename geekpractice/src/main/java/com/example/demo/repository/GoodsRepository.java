@@ -10,7 +10,7 @@ import com.example.demo.entity.Goods;
 
 public interface GoodsRepository extends JpaRepository<Goods, Integer> {
 	
-	List<Goods> findByDeletedFalse(); 
+	List<Goods> findByDeletedFalse();
 	
 	List<Goods> findByDeletedFalseAndSmallCategoryId(Integer smallCategoryId); //カテゴリID検索
 	

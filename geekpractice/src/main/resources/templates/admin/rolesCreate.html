@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/admin/rolesCreate.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/roles.css}">
 	<title>Geek_Top</title>
 </head>
 
@@ -18,7 +18,8 @@
 			<a href="/admin/rolesControl"><button>戻る</button></a>
 		</div>
 	</header>
-	<div class="create">
+	
+	<div class="container">
 		<form method="post" th:action="@{/admin/rolesCreate}" th:object="${usersForm}">
 
 			<div class="role">
@@ -57,7 +58,7 @@
 					style="color: red;"></span>
 			</div>
 
-			<div class="container">
+			<div class="role_box">
 				<div>
 					<p>姓</p>
 					<input type="text" th:field="*{firstName}">
@@ -66,18 +67,16 @@
 				<div>
 					<p>名</p>
 					<input type="text" th:field="*{lastName}">
-
 					<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red;"></p>
 				</div>
 				<div>
 					<p>年齢</p>
 					<input type="text" th:field="*{age}">
-
 					<p th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color: red;"></p>
 				</div>
 			</div>
 
-			<div class="container">
+			<div class="role_box">
 				<div>
 					<p>メールアドレス</p>
 					<input type="email" th:field="*{email}">
@@ -98,7 +97,7 @@
 				</div>
 			</div>
 			
-			<div class="btn">
+			<div class="role_btn">
 				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
 				<button type="submit">管理者作成</button>
 			</div>

@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" th:href="@{/css/style.css}">
-	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/search.css}">
 	<title>商品一覧</title>
 </head>
 
@@ -20,19 +21,21 @@
 	</header>
 
 	<form th:action="@{/goods/search}" th:object="${goodsSearchForm}" method="get" class="select">
-		<div>
-			<label for="smallCategory">カテゴリ</label>
-			<select id="smallCategoryId" th:field="*{smallCategoryId}">
-				<option value="" selected>--カテゴリを選択--</option>
-				<option th:each="cat : ${smallCategoryList}" th:value="${cat.id}" th:text="${cat.name}"></option>
-			</select>
-		</div>
-		<div>
-			<label>商品名</label>
-			<input type="text" th:field="*{goodsName}" placeholder="商品名を入力">
-		</div>
-		<div class="btn">
-			<button type="submit">検索</button>
+		<div class="search">
+			<div>
+				<label for="smallCategory">カテゴリ</label>
+				<select id="smallCategoryId" th:field="*{smallCategoryId}">
+					<option value="" selected>--カテゴリを選択--</option>
+					<option th:each="cat : ${smallCategoryList}" th:value="${cat.id}" th:text="${cat.name}"></option>
+				</select>
+			</div>
+			<div>
+				<label>商品名</label>
+				<input type="text" th:field="*{goodsName}" placeholder="商品名を入力">
+			</div>
+			<div class="btn">
+				<button type="submit">検索</button>
+			</div>
 		</div>
 	</form>
 
@@ -42,9 +45,9 @@
 		<table border="1">
 			<tr>
 				<th class="width-1">商品ID</th>
-				<th class="width-2">商品名</th>
+				<th class="width-3">商品名</th>
 				<th class="width-3">小カテゴリ</th>
-				<th class="width-4">詳細/編集</th>
+				<th class="width-1">詳細/編集</th>
 			</tr>
 			<tr th:each="goods : ${goodsList}">
 				<td><span th:text="${goods.id}"></span></td>
@@ -53,7 +56,9 @@
 				<td><a th:href="@{'/goods/goodsDetail/' + ${goods.id}}">詳細/編集</a></td>
 			</tr>
 		</table>
+	</div>
 
+	<div class="container">
 		<div th:if="${totalPages > 1}" class="pagination" style="margin-top: 20px; text-align: center;">
 
 			<!-- 前へ -->
