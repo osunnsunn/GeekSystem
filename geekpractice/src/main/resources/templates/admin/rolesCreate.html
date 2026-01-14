@@ -34,17 +34,17 @@
 				</div>
 				<span th:if="${#fields.hasErrors('rolesId')}" th:errors="*{rolesId}" class="error"
 					style="color: red;"></span>
-				<div>
-					<label for="permissions">権限</label>
-					<select id="permissions" name="permissionsId" th:field="*{permissionsId}">
-						<option value="" disabled selected>--権限を選択--</option>
-						<th:block th:each="p:${permissionsList}">
-							<option th:value="${p.id}" th:text="${p.name}"></option>
-						</th:block>
-					</select>
-				</div>
-				<span th:if="${#fields.hasErrors('permissionsId')}" th:errors="*{permissionsId}" class="error"
-					style="color: red;"></span>
+<!--				<div>-->
+<!--					<label for="permissions">権限</label>-->
+<!--					<select id="permissions" name="permissionsId" th:field="*{permissionsId}">-->
+<!--						<option value="" disabled selected>--権限を選択--</option>-->
+<!--						<th:block th:each="p:${permissionsList}">-->
+<!--							<option th:value="${p.id}" th:text="${p.name}"></option>-->
+<!--						</th:block>-->
+<!--					</select>-->
+<!--				</div>-->
+<!--				<span th:if="${#fields.hasErrors('permissionsId')}" th:errors="*{permissionsId}" class="error"-->
+<!--					style="color: red;"></span>-->
 				<div>
 					<label for="stores">店舗</label>
 					<select id="stores" name="storesId" th:field="*{storesId}">

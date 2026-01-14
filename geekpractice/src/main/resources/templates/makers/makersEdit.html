@@ -20,7 +20,7 @@
 	</header>
 
 	<div class="container">
-		<form method="post" th:action="@{/makers/makers/{id}/Edit(id=${makers.id})}" th:object="${makers}">
+		<form method="post" th:action="@{/makers/makers/{id}/Edit(id=${makers.id})}" th:object="${makersForm}">
 
 			<div class="maker_box">
 				<div>
@@ -29,8 +29,8 @@
 				<div>
 					<label>メーカー名：</label>
 					<input type="text" th:field="*{name}">
-					<p th:text="${name}"></p>
 				</div>
+				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
 			</div>
 
 			<div class="maker_bth">

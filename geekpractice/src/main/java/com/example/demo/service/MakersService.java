@@ -34,12 +34,12 @@ public class MakersService {
 		return makersRepository.save(makers);
 	}
 	
-	public Makers updateMakers(Integer id, Makers updatedMakers) {
+	public Makers updateMakers(Integer id, MakersForm form) {
 		Optional<Makers> opt = makersRepository.findById(id);
 		if (opt.isEmpty()) return null;
 		
 		Makers makers = opt.get();
-	    makers.setName(updatedMakers.getName());
+	    makers.setName(form.getName());
 	    
 	    return makersRepository.save(makers);
 	}

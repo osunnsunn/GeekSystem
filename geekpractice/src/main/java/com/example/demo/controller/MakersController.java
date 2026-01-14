@@ -20,6 +20,7 @@ import com.example.demo.form.MakersForm;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.MakersService;
+import com.example.demo.service.RolesService;
 
 @Controller
 public class MakersController {
@@ -29,6 +30,9 @@ public class MakersController {
 	
 	@Autowired
 	private AuthService authService;
+	
+	@Autowired
+	private RolesService rolesService;
 	
 	@GetMapping("/makers/makersControl") //メーカー管理画面
 	public String makers() {
@@ -45,7 +49,7 @@ public class MakersController {
 	@GetMapping("/makers/makers/{id}") //メーカー詳細画面
 	public String showMakersDetail(@PathVariable Integer id, Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
 		
-		Users currentUser = loginUser.getUser();
+		Users currentUser = rolesService.getUserById(loginUser.getUser().getId());
 		if (!authService.isAdmin(currentUser)) {
 		    model.addAttribute("errorMessage", "管理者権限が必要です");
 		    List<Makers> makersList = makersService.getAllMakers();
@@ -70,22 +74,28 @@ public class MakersController {
 	        return "makers/makersList";
 	    }
 	    
+	    MakersForm form = new MakersForm();
+	    form.setName(makers.getName());
+
+	    model.addAttribute("makersForm", form);
 	    model.addAttribute("makers", makers);
 	    model.addAttribute("makersList", makersService.getAllMakers());
 	    return "makers/makersEdit";
 	}
 
 	@PostMapping("/makers/makers/{id}/Edit") //メーカー編集
-	public String updatoreMakers(@PathVariable Integer id, @Valid @ModelAttribute("makers") Makers makers, BindingResult bindingResult, Model model) {
+	public String updatoreMakers(@PathVariable Integer id, @Valid @ModelAttribute("makersForm") MakersForm form, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("makers", makersService.getMakersById(id));
+			Makers makers = makersService.getMakersById(id);
+			model.addAttribute("makers", makers);
+			model.addAttribute("makersForm", form);
 			model.addAttribute("makersList", makersService.getAllMakers());
 			model.addAttribute("errorMessage", "更新失敗しました");
 			return "makers/makersEdit";
 		}
 
-		makersService.updateMakers(id, makers);
+		makersService.updateMakers(id, form);
 		model.addAttribute("makers", makersService.getMakersById(id));
 		model.addAttribute("makersList", makersService.getAllMakers());
 		model.addAttribute("successMessage", "更新が完了しました");
@@ -95,7 +105,7 @@ public class MakersController {
 	@GetMapping("/makers/makersCreate") //メーカー作成画面
 	public String showMakersCreateForm(Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
 		
-		Users currentUser = loginUser.getUser();
+		Users currentUser = rolesService.getUserById(loginUser.getUser().getId());
 		if (!authService.isAdmin(currentUser)) {
 		    model.addAttribute("errorMessage", "管理者権限が必要です");
 		    return "makers/makersControl";

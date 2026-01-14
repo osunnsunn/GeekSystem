@@ -12,7 +12,7 @@ public class GoodsForm {
 	
 	private Integer id;
 	
-	@NotNull(message = " メーカーIDがありません")
+	@NotNull(message = " メーカーがありません")
 	private Integer makersId;
 
 	@NotNull(message = "小カテゴリがありません")

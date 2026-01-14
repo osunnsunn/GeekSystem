@@ -26,7 +26,7 @@
 				<div>
 					<label for="roles">役職</label>
 					<select id="roles" name="rolesId" th:field="*{rolesId}">
-						<option value="" disabled selected>--役職を選択--</option>
+						<option value="" disabled>--役職を選択--</option>
 						<th:block th:each="r:${rolesList}">
 							<option th:value="${r.id}" th:text="${r.name}"></option>
 						</th:block>
@@ -71,8 +71,8 @@
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red;"></p>
 				</div>
 				<div>
-					<p>パスワード</p>
-					<input type="text" th:field="*{password}">
+					<p>パスワード変更</p>
+					<input type="password" th:field="*{password}">
 					<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></p>
 				</div>
 				<div>

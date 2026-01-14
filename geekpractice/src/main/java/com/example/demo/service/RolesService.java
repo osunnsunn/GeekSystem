@@ -53,6 +53,7 @@ public class RolesService {
 	}
 
 	public Users createUser(UsersForm form) {
+		
 		Users users = new Users();
 		users.setRolesId(form.getRolesId());
 		users.setStoresId(form.getStoresId());
@@ -70,26 +71,30 @@ public class RolesService {
 		return usersRepository.save(users);
 	}
 	
+	public boolean existsByEmail(String email) {
+	    return usersRepository.findByEmail(email).isPresent();
+	}
+	
 	public Users getUserById(Integer id) {
         return usersRepository.findById(id).orElse(null);
     }
 	
-	public Users updateUsers(Integer id, Users updatedUsers) {
+	public Users updateUsers(Integer id, UsersForm form) {
         Optional<Users> opt = usersRepository.findById(id);
         if (opt.isEmpty()) return null;
 
         Users users = opt.get();
-        users.setRolesId(updatedUsers.getRolesId());
-        users.setStoresId(updatedUsers.getStoresId());
-        users.setFirstName(updatedUsers.getFirstName());
-        users.setLastName(updatedUsers.getLastName());
-        users.setAge(updatedUsers.getAge());
-        users.setEmail(updatedUsers.getEmail());
-        users.setPhone(updatedUsers.getPhone());
+        users.setRolesId(form.getRolesId());
+        users.setStoresId(form.getStoresId());
+        users.setFirstName(form.getFirstName());
+        users.setLastName(form.getLastName());
+        users.setAge(form.getAge());
+        users.setEmail(form.getEmail());
+        users.setPhone(form.getPhone());
 
-        if (updatedUsers.getPassword() != null && !updatedUsers.getPassword().isEmpty()) {
-        	System.out.println(updatedUsers.getPassword());
-            String hashedPassword = passwordEncoder.encode(updatedUsers.getPassword());
+        if (form.getPassword() != null && !form.getPassword().isEmpty()) {
+        	System.out.println(form.getPassword());
+            String hashedPassword = passwordEncoder.encode(form.getPassword());
             users.setPassword(hashedPassword);
         }
 

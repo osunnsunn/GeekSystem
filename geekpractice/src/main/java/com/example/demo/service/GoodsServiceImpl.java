@@ -53,7 +53,7 @@ public class GoodsServiceImpl implements GoodsService {
         String goodsName = form.getGoodsName();
 
         if ((categoryId == null || categoryId == 0) && (goodsName == null || goodsName.isEmpty())) {
-            return goodsRepository.findAll(pageable);
+        	return goodsRepository.findByDeletedFalse(pageable);
         }
         if (categoryId != null && categoryId != 0 && goodsName != null && !goodsName.isEmpty()) {
             return goodsRepository.findByDeletedFalseAndSmallCategoryIdAndNameContaining(categoryId, goodsName, pageable);

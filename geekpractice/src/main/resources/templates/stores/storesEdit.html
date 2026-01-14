@@ -20,16 +20,16 @@
 	</header>
 
 	<div class="container">
-		<form method="post" th:action="@{/stores/stores/{id}/Edit(id=${stores.id})}" th:object="${stores}">
+		<form method="post" th:action="@{/stores/stores/{id}/Edit(id=${id})}" th:object="${storesForm}">
 
 			<div class="store_box">
 				<div>
 					<p>店舗ID：<span th:text="${id}"></span></p>
 				</div>
 				<div>
-					<label>店舗名(変更不可)：</label>
-					<input type="text" th:field="*{name}" readonly>
-					<p th:text="${name}"></p>
+					<label>店舗名</label>
+					<input type="text" th:field="*{name}">
+					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
 				</div>
 				<div>
 					<label>住所：</label>

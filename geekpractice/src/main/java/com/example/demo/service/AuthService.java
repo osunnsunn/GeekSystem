@@ -7,6 +7,6 @@ import com.example.demo.entity.Users;
 @Service
 public class AuthService {
     public boolean isAdmin(Users user) {
-        return user.getRolesId() == 1;
+    	return user.getRoles().getPermissionsId() == 1;
     }
 }

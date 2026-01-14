@@ -17,13 +17,13 @@ public class Permissions {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "permissions_name", nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "permissions_code", nullable = false)
+	@Column(name = "code", nullable = false)
 	private String code;
 
-	@Column(name = "permissions_description", nullable = false)
+	@Column(name = "description", nullable = false)
 	private String description;
 
 	public Integer getId() {

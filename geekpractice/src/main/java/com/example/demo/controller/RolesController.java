@@ -37,10 +37,10 @@ public class RolesController {
 	@GetMapping("/admin/rolesCreate") //管理者作成画面
 	public String showRolesCreateForm(Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
 		
-		Users currentUser = loginUser.getUser();
+		Users currentUser = rolesService.getUserById(loginUser.getUser().getId());
 		if (!authService.isAdmin(currentUser)) {
 		    model.addAttribute("errorMessage", "管理者権限が必要です");
-			return "admin/rolesControl";
+		    return "admin/rolesControl";
 		}
 		model.addAttribute("rolesList", rolesService.getAllRoles());
 		model.addAttribute("permissionsList", rolesService.getAllPermissions());
@@ -53,6 +53,13 @@ public class RolesController {
 	@PostMapping("/admin/rolesCreate") //管理者作成
 	public String createUsers(@Valid @ModelAttribute("usersForm") UsersForm form, BindingResult bindingResult,
 			Model model) {
+		
+		if (form.getPassword() == null || form.getPassword().isBlank()) {
+	        bindingResult.rejectValue("password", "password.required", "パスワードを入力してください");
+	    }
+		if (form.getEmail() != null && rolesService.existsByEmail(form.getEmail())) {
+		        bindingResult.rejectValue("email", "email.duplicate", "このメールアドレスは既に使用されています");
+		}
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("rolesList", rolesService.getAllRoles());
@@ -64,6 +71,10 @@ public class RolesController {
 		}
 
 		rolesService.createUser(form);
+		model.addAttribute("rolesList", rolesService.getAllRoles());
+		model.addAttribute("permissionsList", rolesService.getAllPermissions());
+		model.addAttribute("storesList", rolesService.getAllStores());
+		model.addAttribute("usersList", rolesService.getAllUsers());
 		model.addAttribute("successMessage", "登録完了しました");
 		return "admin/rolesCreate";
 	}
@@ -78,7 +89,7 @@ public class RolesController {
 	@GetMapping("/admin/roles/{id}") //管理者詳細画面
 	public String showUsersDetail(@PathVariable Integer id, Model model, @AuthenticationPrincipal CustomUserDetails loginUser) {
 		
-		Users currentUser = loginUser.getUser();
+		Users currentUser = rolesService.getUserById(loginUser.getUser().getId());
 		if (!authService.isAdmin(currentUser)) {
 		    model.addAttribute("errorMessage", "管理者権限が必要です");
 		    List<Users> usersList = rolesService.getAllUsers();
@@ -110,10 +121,9 @@ public class RolesController {
 	}
 
 	@PostMapping("/admin/roles/{id}/Edit") //管理者編集
-	public String updateUsers(@PathVariable Integer id, @Valid @ModelAttribute("users") Users users, BindingResult bindingResult, Model model) {
+	public String updateUsers(@PathVariable Integer id, @Valid @ModelAttribute("users") UsersForm form, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("users", rolesService.getUserById(id));
 			model.addAttribute("rolesList", rolesService.getAllRoles());
 			model.addAttribute("permissionsList", rolesService.getAllPermissions());
 			model.addAttribute("storesList", rolesService.getAllStores());
@@ -121,7 +131,11 @@ public class RolesController {
 			return "admin/rolesEdit";
 		}
 
-		rolesService.updateUsers(id, users);
+		rolesService.updateUsers(id, form);
+		model.addAttribute("users", rolesService.getUserById(id));
+		model.addAttribute("rolesList", rolesService.getAllRoles());
+		model.addAttribute("permissionsList", rolesService.getAllPermissions());
+		model.addAttribute("storesList", rolesService.getAllStores());
 		model.addAttribute("successMessage", "更新が完了しました");
 		return "admin/rolesEdit";
 	}

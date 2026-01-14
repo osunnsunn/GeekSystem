@@ -61,11 +61,18 @@ public class GoodsController {
 	}
 
 	@GetMapping("/goods/goodsList") //商品一覧 画面
-	public String goodsList(Model model) {
-
-		model.addAttribute("goodsList", goodsService.findAll());
-		model.addAttribute("smallCategoryList", categoryService.findAllSmall());
-		model.addAttribute("goodsSearchForm", new GoodsSearchForm());
+	public String goodsList(@RequestParam(defaultValue = "0") int page, Model model) {
+		
+		GoodsSearchForm form = new GoodsSearchForm();
+		Pageable pageable = PageRequest.of(page, 10);
+	    Page<Goods> goodsPage = goodsService.search(form, pageable);
+		
+		model.addAttribute("goodsList", goodsPage.getContent());
+	    model.addAttribute("goodsPage", goodsPage);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", goodsPage.getTotalPages());
+	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	    model.addAttribute("goodsSearchForm", form);
 
 		return "goods/goodsList";
 	}
@@ -75,7 +82,6 @@ public class GoodsController {
 	public String searchGoods(@ModelAttribute GoodsSearchForm form, @RequestParam(defaultValue = "0") int page, Model model) {
 
 	    Pageable pageable = PageRequest.of(page, 10);
-
 	    Page<Goods> goodsPage = goodsService.search(form, pageable);
 
 	    model.addAttribute("goodsList", goodsPage.getContent());
@@ -90,6 +96,7 @@ public class GoodsController {
 
 	@GetMapping("/goods/goodsDetail/{id}") //商品詳細 画面
 	public String goodsDetail(@PathVariable Integer id, Model model) {
+		
 		Goods goods = goodsService.findById(id);
 		model.addAttribute("goods", goods);
 		return "goods/goodsDetail";
@@ -97,7 +104,19 @@ public class GoodsController {
 
 	@GetMapping("/goods/goods/{id}/Edit") //商品編集 画面
 	public String goodsEdit(@PathVariable Integer id, Model model) {
+		
 		Goods goods = goodsService.findById(id);
+		GoodsForm form = new GoodsForm();
+		form.setId(goods.getId());
+	    form.setName(goods.getName());
+	    form.setDescription(goods.getDescription());
+	    form.setSmallCategoryId(goods.getSmallCategoryId());
+	    form.setMakersId(goods.getMakersId());
+	    form.setCostPrice(goods.getCostPrice());
+	    form.setRetailPrice(goods.getRetailPrice());
+	    form.setSalesPrice(goods.getSalesPrice());
+		
+		model.addAttribute("goodsForm", form);
 		model.addAttribute("goods", goods);
 		model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 		model.addAttribute("makersList", makersService.getAllMakers());
@@ -105,31 +124,41 @@ public class GoodsController {
 	}
 
 	@PostMapping("/goods/goods/{id}/Edit") //編集処理
-		public String editGoods(@PathVariable Integer id, @ModelAttribute GoodsForm form, Model model) {
+		public String editGoods(@PathVariable Integer id, @Valid @ModelAttribute("goodsForm") GoodsForm form, BindingResult bindingResult, Model model) {
 		
-		if (form.getName() == null || form.getName().isEmpty()) {
-	        model.addAttribute("errorMessage", "商品名は必須です。");
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("goods", goodsService.findById(id));
 	        model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 	        model.addAttribute("makersList", makersService.getAllMakers());
 	        return "goods/goodsEdit";
 	    }
 	    form.setId(id);
 	    goodsService.update(form);
-	    model.addAttribute("successMessage", "商品情報を更新しました！");
 	    model.addAttribute("goods", goodsService.findById(id));
 	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 	    model.addAttribute("makersList", makersService.getAllMakers());
+	    model.addAttribute("successMessage", "商品情報を更新しました！");
 			
-			return "goods/goodsEdit";
-		}
+		return "goods/goodsEdit";
+	}
 
 	@PostMapping("/goods/goodsDetail/{id}") //削除処理
-	public String deleteGoods(@PathVariable Integer id, Model model) {
+	public String deleteGoods(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, Model model) {
+		
 		goodsService.delete(id);
+		
+		GoodsSearchForm form = new GoodsSearchForm();
+		Pageable pageable = PageRequest.of(page, 10);
+	    Page<Goods> goodsPage = goodsService.search(form, pageable);
+		
+		model.addAttribute("goodsList", goodsPage.getContent());
+	    model.addAttribute("goodsPage", goodsPage);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", goodsPage.getTotalPages());
+	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	    model.addAttribute("goodsSearchForm", form);
+		
 		model.addAttribute("successMessage", "商品を削除しました。");
-		model.addAttribute("goodsList", goodsService.findAll());
-		model.addAttribute("smallCategoryList", categoryService.findAllSmall());
-		model.addAttribute("goodsSearchForm", new GoodsSearchForm());
 		return "goods/goodsList";
 	}
 

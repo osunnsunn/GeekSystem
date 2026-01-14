@@ -48,20 +48,20 @@ public class StoresController {
 	
 	@GetMapping("/stores/stores/{id}/Edit") //店舗編集画面
 	public String showEditForm(@PathVariable Integer id, Model model) {
-	    Stores stores = storesService.getStoresById(id);
-	    
-	    if (stores == null) {
+		
+		StoresForm form = storesService.getStoresFormById(id);
+	    if (form == null) {
 	        model.addAttribute("errorMessage", "該当店舗が見つかりません");
 	        return "stores/storesList";
 	    }
 	    
-	    model.addAttribute("stores", stores);
-	    model.addAttribute("storesList", storesService.getAllStores());
+	    model.addAttribute("id", id);
+	    model.addAttribute("storesForm", form);
 	    return "stores/storesEdit";
 	}
 
 	@PostMapping("/stores/stores/{id}/Edit") //店舗編集
-	public String updatorestores(@PathVariable Integer id, @Valid @ModelAttribute("stores") Stores stores, BindingResult bindingResult, Model model) {
+	public String updatorestores(@PathVariable Integer id, @Valid @ModelAttribute("storesForm") StoresForm form, BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("stores", storesService.getStoresById(id));
@@ -70,7 +70,7 @@ public class StoresController {
 			return "stores/storesEdit";
 		}
 
-		storesService.updateStores(id, stores);
+		storesService.updateStores(id, form);
 		model.addAttribute("stores", storesService.getStoresById(id));
 		model.addAttribute("storesList", storesService.getAllStores());
 		model.addAttribute("successMessage", "更新が完了しました");
