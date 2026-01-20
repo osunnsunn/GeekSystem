@@ -236,6 +236,17 @@ public class GoodsController {
 	    }
 		excelTest.exportOrderDetail();
 		model.addAttribute("successMessage", "ファイル作成しました！");
+
+		Users loginUser = userDetails.getUser();
+		Integer storeId = loginUser.getStoresId();
+
+		model.addAttribute("storesId", storeId);
+		model.addAttribute("storesName", storesService.getStoresById(storeId).getName());
+		model.addAttribute("usersId", loginUser.getId());
+		model.addAttribute("userName", loginUser.getLastName() + " " + loginUser.getFirstName());
+
+		List<Orders> ordersList = ordersService.getOrdersHistoryByStore(storeId);
+		model.addAttribute("ordersList", ordersList);
 		return "goods/goodsHistory";
 	}
 	
