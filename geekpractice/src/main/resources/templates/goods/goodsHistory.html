@@ -28,6 +28,11 @@
 			<label>発注者：</label>
 			<span th:text="${userName}"></span>
 		</div>
+		<form class="goods_btn" th:action="@{/goods/goodsHistory}" method="post">
+			<button type="submit">xlsxファイル出力</button>
+			<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+			<span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+		</form>
 	</div>
 
 	<div class="container">

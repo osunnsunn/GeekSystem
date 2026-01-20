@@ -33,6 +33,7 @@ import com.example.demo.service.MakersService;
 import com.example.demo.service.OrdersService;
 import com.example.demo.service.StoreStockService;
 import com.example.demo.service.StoresService;
+import com.example.demo.util.ExcelTest;
 
 @Controller
 public class GoodsController {
@@ -54,6 +55,9 @@ public class GoodsController {
 	
 	@Autowired
 	private StoreStockService storeStockService;
+	
+	@Autowired
+	private ExcelTest excelTest;
 
 	@GetMapping("/goods/goodsControl") //商品管理 画面
 	public String goodsControl() {
@@ -223,6 +227,18 @@ public class GoodsController {
 
 		return "goods/goodsHistory";
 	}
+	
+	@PostMapping("/goods/goodsHistory") //発注履歴 ファイル出力
+	public String goodsHistoryXlsx(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+		if (userDetails == null) {
+			model.addAttribute("errorMessage", "作成に失敗しました");
+	        return "goods/goodsHistory";
+	    }
+		excelTest.exportOrderDetail();
+		model.addAttribute("successMessage", "ファイル作成しました！");
+		return "goods/goodsHistory";
+	}
+	
 
 	@GetMapping("/goods/goodsStock") //商品在庫 画面
 	public String showGoodsStock(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
