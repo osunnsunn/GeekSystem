@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -37,5 +39,12 @@ public class Orders {
     
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetails> orderDetails;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "users_id", insertable = false, updatable = false)
+    private Users users;
+    
+    public Users getUsers() {
+        return this.users;
+    }
 }
