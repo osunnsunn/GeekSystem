@@ -1,14 +1,25 @@
 package com.example.demo.controller;
 
+
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -228,28 +239,35 @@ public class GoodsController {
 		return "goods/goodsHistory";
 	}
 	
-	@PostMapping("/goods/goodsHistory") //発注履歴 ファイル出力
-	public String goodsHistoryXlsx(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
-		if (userDetails == null) {
-			model.addAttribute("errorMessage", "作成に失敗しました");
-	        return "goods/goodsHistory";
-	    }
+	@GetMapping("/goods/goodsHistory/download") //発注履歴 ファイル出力
+	public ResponseEntity<Resource> downloadFile(Model model) throws Exception {
 		excelTest.exportOrderDetail();
-		model.addAttribute("successMessage", "ファイル作成しました！");
-
-		Users loginUser = userDetails.getUser();
-		Integer storeId = loginUser.getStoresId();
-
-		model.addAttribute("storesId", storeId);
-		model.addAttribute("storesName", storesService.getStoresById(storeId).getName());
-		model.addAttribute("usersId", loginUser.getId());
-		model.addAttribute("userName", loginUser.getLastName() + " " + loginUser.getFirstName());
-
-		List<Orders> ordersList = ordersService.getOrdersHistoryByStore(storeId);
-		model.addAttribute("ordersList", ordersList);
-		return "goods/goodsHistory";
+		System.out.println("=== File DL STRAT===");
+		Path path = Paths.get("src/main/resources/public/workbook.xlsx");
+		if (!Files.exists(path)) {
+			System.out.println("=== Path ON! ===");
+	        return ResponseEntity.notFound().build();
+	    }
+		Resource resource = new PathResource(path);
+		System.out.println("=== Path GET! ===");
+		return ResponseEntity.ok()
+                .contentType(getContentType(path))
+                .contentLength(resource.contentLength())
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+		
 	}
-	
+	private MediaType getContentType(Path path) throws IOException {
+        try {
+            return MediaType.parseMediaType(Files.probeContentType(path));
+        } catch (IOException e) {
+            return MediaType.APPLICATION_OCTET_STREAM;
+        }
+    }
+//	public void downloadFile2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		excelTest.exportOrderDetail(request, response);
+//    }
 
 	@GetMapping("/goods/goodsStock") //商品在庫 画面
 	public String showGoodsStock(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {

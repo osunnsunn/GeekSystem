@@ -21,12 +21,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.OrderDetails;
 import com.example.demo.repository.OrderDetailsRepository;
 
 @Service
+@Component
 public class ExcelTest {
 	
 	@Autowired
@@ -34,7 +36,7 @@ public class ExcelTest {
 	
 	public void exportOrderDetail() {
 	
-		System.out.println("開始");
+		System.out.println("===START ApachePOI===");
 		
 		List<OrderDetails> od = orderDetailsRepository.findAll();
 		
@@ -120,15 +122,21 @@ public class ExcelTest {
             }
             sheet.setColumnWidth(5, 20000);
             
+//            // レスポンス設定
+//            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+//            response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
+
+            
             // ファイルへの保存
             try (
             	FileOutputStream fileOut = new FileOutputStream("src/main/resources/public/workbook.xlsx")) {
                 workbook.write(fileOut);
+                workbook.close();
             }
             
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("終了");
+        System.out.println("===END ApachePOI===");
     }
 }
