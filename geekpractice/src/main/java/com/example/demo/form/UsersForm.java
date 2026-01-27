@@ -1,5 +1,7 @@
 package com.example.demo.form;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,6 +42,9 @@ public class UsersForm {
 	private String email;
 
 	@NotBlank(message = "電話番号を入力してください")
+	@Pattern(regexp = "0\\d{1,4}-{0,1}\\d{1,4}-{0,1}\\d{4}", message = "電話番号の形式で入力してください")
 	private String phone;
+
+	private LocalDateTime updatedAt;
 
 }

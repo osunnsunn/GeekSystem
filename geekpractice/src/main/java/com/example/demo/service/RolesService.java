@@ -97,6 +97,7 @@ public class RolesService {
             String hashedPassword = passwordEncoder.encode(form.getPassword());
             users.setPassword(hashedPassword);
         }
+        users.setUpdatedAt(LocalDateTime.now());
 
         return usersRepository.save(users);
     }
