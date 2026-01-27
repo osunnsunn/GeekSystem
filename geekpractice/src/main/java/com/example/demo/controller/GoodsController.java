@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.doma2.GoodsDaoService;
-import com.example.demo.doma2.GoodsSearchFormDao;
-import com.example.demo.doma2.PageResult;
 import com.example.demo.entity.Goods;
 import com.example.demo.entity.Orders;
 import com.example.demo.entity.Stores;
@@ -71,8 +68,8 @@ public class GoodsController {
 	@Autowired
 	private ExcelTest excelTest;
 	
-	@Autowired
-	private GoodsDaoService goodsDaoService;
+//	@Autowired
+//	private GoodsDaoService goodsDaoService;
 	
 	@GetMapping("/goods/goodsControl") //商品管理 画面
 	public String goodsControl() {
@@ -96,17 +93,19 @@ public class GoodsController {
 		return "goods/goodsList";
 	}
 	
-	@GetMapping("/goods/search") //商品一覧 検索  (Doma2)
-	public String searchGoods(@ModelAttribute GoodsSearchFormDao form, Model model) {
-    	
-    	int size = 10;
-    	PageResult<Goods> result = goodsDaoService.search(form);
+	@GetMapping("/goods/search") //商品一覧 検索
 
-    	model.addAttribute("goodsList", result.getContent());
-        model.addAttribute("currentPage", result.getCurrentPage());
-        model.addAttribute("totalPages", result.getTotalPages());
-        model.addAttribute("smallCategoryList", categoryService.findAllSmall());
-        model.addAttribute("goodsSearchForm", form);
+	public String searchGoods(@ModelAttribute GoodsSearchForm form, @RequestParam(defaultValue = "0") int page, Model model) {
+
+	    Pageable pageable = PageRequest.of(page, 10);
+	    Page<Goods> goodsPage = goodsService.search(form, pageable);
+
+	    model.addAttribute("goodsList", goodsPage.getContent());
+	    model.addAttribute("goodsPage", goodsPage);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("totalPages", goodsPage.getTotalPages());
+	    model.addAttribute("smallCategoryList", categoryService.findAllSmall());
+	    model.addAttribute("goodsSearchForm", form);
 
 		return "goods/goodsList";
 	}
@@ -140,7 +139,7 @@ public class GoodsController {
 		return "goods/goodsEdit";
 	}
 	
-	@PostMapping("/goods/goods/{id}/Edit") //編集処理 (Doma2)
+	@PostMapping("/goods/goods/{id}/Edit") //編集処理
 	public String editGoods(@PathVariable Integer id, @Valid @ModelAttribute("goodsForm") GoodsForm form, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -148,9 +147,9 @@ public class GoodsController {
 			model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 			model.addAttribute("makersList", makersService.getAllMakers());
 			return "goods/goodsEdit";
-        }
+		}
 		form.setId(id);
-		goodsDaoService.updateDao(form);
+		goodsService.update(form);
 		model.addAttribute("goods", goodsService.findById(id));
 		model.addAttribute("smallCategoryList", categoryService.findAllSmall());
 		model.addAttribute("makersList", makersService.getAllMakers());
@@ -162,7 +161,7 @@ public class GoodsController {
 	@PostMapping("/goods/goodsDetail/{id}") //削除処理 (Doma2)
 	public String deleteGoods(@PathVariable Integer id, @RequestParam(defaultValue = "0") int page, Model model) {
 		
-		goodsDaoService.deleteDao(id);
+		goodsService.delete(id);
 		
 		GoodsSearchForm form = new GoodsSearchForm();
 		Pageable pageable = PageRequest.of(page, 10);
@@ -300,7 +299,7 @@ public class GoodsController {
 		}
 
 		try {
-			goodsDaoService.createDao(form);
+			goodsService.create(form);
 		} catch (RuntimeException e) {
 			model.addAttribute("errorMessage", "商品作成に失敗しました");
 			model.addAttribute("smallCategoryList", categoryService.findAllSmall());
