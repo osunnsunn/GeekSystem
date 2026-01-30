@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<title>ログイン画面</title>
+</head>
+
+<body>
+
+	<header class="header">
+		<h1>Geekシステム ログイン</h1>
+	</header>
+
+	<div class="container">
+		<form th:action="@{/login}" method="post">
+
+			<table border="0">
+				<tr>
+					<td><label for="email">Email</label></td>
+					<td><input type="email" name="email" required></td>
+				</tr>
+				<tr>
+					<td><label for="password">パスワード</label></td>
+					<td><input type="password" name="password" required></td>
+				</tr>
+			</table>
+			<div class="login">
+				<button type="submit">ログイン</button>
+			</div>
+			<span th:if="${errorMessage}" style="color:red;" th:text="${errorMessage}"></span>
+			<span th:if="${logoutMessage}" style="color:green;" th:text="${logoutMessage}"></span>
+
+		</form>
+	</div>
+
+</body>
+
+</html>

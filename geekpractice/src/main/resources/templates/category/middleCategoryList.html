@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/list.css}">
+	<title>中カテゴリ一覧</title>
+</head>
+
+<body>
+
+	<header class="header">
+		<h1>中カテゴリ一覧</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/category/largeCategoryList"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th class="width-1">中カテゴリID</th>
+				<th class="width-3">中カテゴリ名</th>
+				<th class="width-1">小カテゴリへ</th>
+			</tr>
+			<tr th:each="middleCategory : ${middleCategoryList}">
+				<td><span th:text="${middleCategory.id}"></span></td>
+				<td><span th:text="${middleCategory.name}"></span></td>
+				<td><a th:href="@{'/category/smallCategoryList/'+${middleCategory.id}}">小カテゴリ</a></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+
+</html>

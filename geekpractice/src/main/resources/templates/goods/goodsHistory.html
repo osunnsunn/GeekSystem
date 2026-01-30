@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/histiory.css}">
+	<title>発注履歴</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>発注履歴</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
+		</div>
+	</header>
+	
+	<div class="container">
+		<div>
+			<label>発注店舗：</label>
+			<span th:text="${storesName}"></span>
+		</div>
+		<div>
+			<label>発注者：</label>
+			<span th:text="${userName}"></span>
+		</div>
+		<form class="goods_btn" th:action="@{/goods/goodsHistory/download}" method="get">
+			<button type="submit">xlsxダウンロード</button>
+			<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+			<span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+		</form>
+	</div>
+
+	<div class="container">
+		<table border="1">
+			<tr>
+				<th class="Width-1">発注ID</th>
+				<th class="width-2">商品名</th>
+				<th class="width-2">数量</th>
+				<th class="Width-4">発注者ID</th>
+				<th class="width-5">発注日時</th>
+			</tr>
+			<tr th:each="order : ${ordersList}">
+				<td th:text="${order.id}"></td>
+				<span th:each="detail : ${order.orderDetails}">
+					<td><span th:text="${detail.goods.name}"></span></td>
+					<td><span th:text="${detail.quantity}"></span></td>
+				</span>
+				<td th:text="${order.usersId}"></td>
+				<td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+			</tr>
+		</table>
+	</div>
+
+</body>
+
+</html>

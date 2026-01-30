@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.role {
+	display: flex;
+	gap: 40px;
+	border: solid;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px;
+}
+
+.role_box {
+	display: flex;
+	gap: 40px;
+	border: solid;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px;
+}
+
+.role_box p {
+	overflow: scroll;
+}
+
+.role_btn {
+	margin: 10px;
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+
+.role_btn button {
+	width: 160px;
+	height: 40px;
+	font-size: 24px;
+	margin-right: 20px;
+	background-color: rgb(43, 99, 59);
+}
+
+.role_btn button:hover {
+	background-color: rgb(73, 161, 80);
+}
+
+.role_btn button:active {
+	background-color: rgb(43, 99, 59);
+}
+
+.width-1 {
+	width: 100px;
+}
+
+.width-2 {
+	width: 200px;
+}
+
+.width-3 {
+	width: 300px;
+}
+
+.width-4 {
+	width: 400px;
+}

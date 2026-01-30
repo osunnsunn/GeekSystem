@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/order.css}">
+	<title>商品発注</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="/geekpractice/src/main/resources/static/js/testjs.js"></script>
+</head>
+
+<body>
+	<header class="header">
+		<h1>商品発注</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/goods/goodsControl"><button>戻る</butto></a>
+		</div>
+	</header>
+
+	<form th:action="@{/goods/goodsOrder}" th:object="${OrderForm}" method="post">
+		<div class="container">
+			<div class="box">
+				<div>
+					<label>店舗ID：</label>
+					<span th:text="${storesId}"></span>
+				</div>
+				<div>
+					<label>発注店舗：</label>
+					<span th:text="${storesName}"></span>
+				</div>
+				<input type="hidden" th:field="*{storesId}" th:value="${storesId}" />
+			</div>
+			<div class="box">
+				<div>
+					<label>ユーザID：</label>
+					<span th:text="${usersId}"></span>
+				</div>
+				<div>
+					<label>発注者名：</label>
+					<span th:text="${userName}"></span>
+				</div>
+				<input type="hidden" th:field="*{usersId}" th:value="${usersId}" />
+			</div>
+			<div class="box">
+				<label>商品名</label>
+				<select th:field="*{goodsId}">
+					<option th:each="goods : ${goodsList}" th:value="${goods.id}" th:text="${goods.name}"></option>
+				</select>
+			</div>
+			<div class="box">
+				<label>個数</label>
+				<input type="number" id="quantity" name="quantity" min="1" value="1">
+			</div>
+		</div>
+
+		<div class="goods_btn">
+			<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+			<span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+			<button type="submit">発注する</button>
+		</div>
+		</div>
+	</form>
+
+</body>
+
+</html>

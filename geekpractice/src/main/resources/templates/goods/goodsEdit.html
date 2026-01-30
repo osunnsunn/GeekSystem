@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/goods.css}">
+	<title>商品編集</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>商品編集</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a th:href="@{'/goods/goodsDetail/' + ${goods.id}}"><button type="button">戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<form method="post" th:action="@{'/goods/goods/' + *{id} + '/Edit'}" th:object="${goodsForm}"
+			enctype="multipart/form-data">
+			<input type="hidden" th:field="*{id}">
+
+			<div class="goods_box">
+				<div>
+					<p>商品ID：<span th:text="*{id}"></span></p>
+				</div>
+				<div>
+					<label for="name">商品名</label><br>
+					<input type="text" th:field="*{name}">
+					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red"></p>
+				</div>
+				<div>
+					<label for="smallCategory">小カテゴリ</label><br>
+					<select id="smallCategory" name="smallCategoryId" th:field="*{smallCategoryId}">
+						<option value="" disabled selected>--カテゴリを選択--</option>
+						<th:block th:each="c:${smallCategoryList}">
+							<option th:value="${c.id}" th:text="${c.name}"></option>
+						</th:block>
+					</select>
+					<p th:if="${#fields.hasErrors('smallCategoryId')}" th:errors="*{smallCategoryId}" style="color:red"></p>
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div>
+					<label>商品画像</label><br>
+					<input type="file" th:field="*{image}" accept="image/*">
+					<img th:if="${image != null}" th:src="@{'/images/' + *{image}}" alt="画像">
+					<p th:if="${#fields.hasErrors('image')}" th:errors="*{image}" style="color:red"></p>
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div class="description">
+					<label>商品説明</label><br>
+					<input type="text" th:field="*{description}">
+					<p th:text="${description}"></p>
+					<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color:red"></p>
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div>
+					<label for="makers">メーカー名</label><br>
+					<select id="makers" name="makersId" th:field="*{makersId}">
+						<option value="" disabled selected>--メーカーを選択--</option>
+						<th:block th:each="m:${makersList}">
+							<option th:value="${m.id}" th:text="${m.name}"></option>
+						</th:block>
+					</select>
+					<p th:if="${#fields.hasErrors('makersId')}" th:errors="*{makersId}" style="color:red"></p>
+				</div>
+				<div>
+					<label>仕入れ原価</label><br>
+					<input type="text" th:field="*{costPrice}">
+					<p th:text="${costPrice}"></p>
+					<p th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}" style="color:red"></p>
+				</div>
+				<div>
+					<label>メーカ希望小売価格</label><br>
+					<input type="text" th:field="*{retailPrice}">
+					<p th:text="${retailPrice}"></p>
+					<p th:if="${#fields.hasErrors('retailPrice')}" th:errors="*{retailPrice}" style="color:red"></p>
+				</div>
+				<div>
+					<label>販売価格</label><br>
+					<input type="text" th:field="*{salesPrice}">
+					<p th:text="${salesPrice}"></p>
+					<p th:if="${#fields.hasErrors('salesPrice')}" th:errors="*{salesPrice}" style="color:red"></p>
+				</div>
+			</div>
+
+			<div class="goods_btn">
+				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+				<span th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></span>
+				<button type="submit">更新</button>
+			</div>
+
+		</form>
+	</div>
+
+</body>
+
+</html>

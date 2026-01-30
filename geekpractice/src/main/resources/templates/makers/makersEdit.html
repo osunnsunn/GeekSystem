@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/maker/maker.css}">
+	<title>メーカー編集</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>メーカー編集</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/makers/makersList"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<form method="post" th:action="@{/makers/makers/{id}/Edit(id=${makers.id})}" th:object="${makersForm}">
+
+			<div class="maker_box">
+				<div>
+					<p>メーカーID：<span th:text="${id}"></span></p>
+				</div>
+				<div>
+					<label>メーカー名：</label>
+					<input type="text" th:field="*{name}">
+				</div>
+				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red;"></p>
+			</div>
+
+			<div class="maker_bth">
+				<span th:if="${errorMessage}" th:text="${errorMessage}" style="color:red;"></span>
+				<span th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></span>
+				<button type="submit">更新する</button>
+			</div>
+
+		</form>
+	</div>
+
+</body>
+
+</html>

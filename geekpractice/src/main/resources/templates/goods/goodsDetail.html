@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/goods/goods.css}">
+	<title>商品詳細</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>商品詳細</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/goods/goodsList"><button>戻る</butto></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<div>
+			<div class="goods_box width-m">
+				<div>
+					<label for="goodsId">商品ID：<span th:text="${goods.id}"></span></label>
+				</div>
+				<div>
+					<label for="goodsName">商品名：</label>
+					<span th:text="${goods.name}"></span>
+				</div>
+				<div>
+					<label for="smallCategory">小カテゴリ：</label>
+					<span th:text="${goods.smallCategory.name}"></span>
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div>
+					<label for="goods">商品画像</label><br>
+					<img th:src="@{'/img/' + ${goods.image}}" alt="商品画像">
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div class="description">
+					<label for="goods">商品説明</label><br>
+					<p th:text="${goods.description}"></p>
+				</div>
+			</div>
+
+			<div class="goods_box">
+				<div>
+					<label for="makers">メーカー名</label>
+					<p th:text="${goods.makers.name}"></p>
+				</div>
+				<div class="width-2">
+					<label>仕入れ原価</label>
+					<p th:text="${goods.costPrice}"></p>
+				</div>
+				<div>
+					<label>メーカ希望小売価格</label>
+					<p th:text="${goods.retailPrice}"></p>
+				</div>
+				<div>
+					<label>販売価格</label>
+					<p th:text="${goods.salesPrice}"></p>
+				</div>
+			</div>
+
+			<div class="goods_btn detail">
+				<a th:href="@{/goods/goods/{id}/Edit(id=${goods.id})}">
+					<button type="button">編集</button>
+				</a>
+				<form th:action="@{'/goods/goodsDetail/' + ${goods.id}}" method="post"
+					onsubmit="return confirm('本当に削除しますか？');">
+					<button type="submit">商品削除</button>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

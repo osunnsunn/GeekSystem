@@ -1,0 +1,11 @@
+@charset "UTF-8";@charset "UTF-8";
+
+.container{
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.container a {
+	color: blue;
+}
