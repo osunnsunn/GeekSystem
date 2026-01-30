@@ -121,17 +121,11 @@ public class ExcelTest {
             	}
             }
             sheet.setColumnWidth(5, 20000);
-            
-//            // レスポンス設定
-//            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//            response.setHeader("Content-Disposition", "attachment; filename=\"sample.xlsx\"");
-
-            
+      
             // ファイルへの保存
             try (
             	FileOutputStream fileOut = new FileOutputStream("src/main/resources/public/workbook.xlsx")) {
                 workbook.write(fileOut);
-                workbook.close();
             }
             
         } catch (IOException e) {
