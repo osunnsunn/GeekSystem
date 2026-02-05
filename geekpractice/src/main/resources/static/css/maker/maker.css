@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.maker_bth {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+
+.maker_bth button {
+	font-size: 24px;
+	width: 160px;
+	height: 40px;
+	background-color: rgb(43, 99, 59);
+}
+
+.maker_bth button:hover {
+	background-color: rgb(73, 161, 80);
+}
+
+.maker_bth button:active {
+	background-color: rgb(43, 99, 59);
+}

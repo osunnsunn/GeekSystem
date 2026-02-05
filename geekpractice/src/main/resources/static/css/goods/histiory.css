@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.container div {
+	padding: 10px 20px;
+	margin: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 2px black;
+}

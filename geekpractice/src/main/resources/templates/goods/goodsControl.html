@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<title>商品管理</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>商品管理</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/home"><button>戻る</butto></a>
+		</div>
+	</header>
+	
+	<div class="top">
+		<div>
+			<a href="/goods/goodsList"><button>商品一覧</butto></a>
+		</div>
+		<div>
+			<a href="/goods/goodsOrder"><button>商品発注</butto></a>
+		</div>
+		<div>
+			<a href="/goods/goodsHistory"><button>発注履歴</butto></a>
+		</div>
+		<div>
+			<a href="/goods/goodsStock"><button>店舗在庫</butto></a>
+		</div>
+		<div>
+			<a href="/goods/goodsCreate"><button>商品作成</butto></a>
+		</div>
+	</div>
+	
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/admin/roles.css}">
+	<title>管理者詳細</title>
+</head>
+
+<body>
+
+	<header class="header">
+		<h1>管理者詳細</h1>
+		<div class="box">
+			<form th:action="@{/login}" method="post">
+				<button type="submit" class="loguot">ログアウト</button>
+			</form>
+			<a href="/admin/rolesList"><button>戻る</button></a>
+		</div>
+	</header>
+
+	<div class="container">
+		<div>
+			<div class="role">
+				<div>
+					<label for="roles">役職</label>
+					<p th:text="${users.roles?.name}"></p>
+				</div>
+				<div>
+					<label for="permissions">権限</label>
+					<p th:text="${users.roles?.permissions?.name}"></p>
+				</div>
+				<div>
+					<label for="stores">店舗</label>
+					<p th:text="${users.stores?.name}"></p>
+				</div>
+			</div>
+
+			<div class="role_box">
+				<div>
+					<p>姓</p>
+					<p th:text="${users.firstName}"></p>
+				</div>
+				<div>
+					<p>名</p>
+					<p th:text="${users.lastName}"></p>
+				</div>
+				<div>
+					<p>年齢</p>
+					<p th:text="${users.age}"></p>
+				</div>
+			</div>
+
+			<div class="role_box">
+				<div class="width-2">
+					<p>メールアドレス</p>
+					<p th:text="${users.email}"></p>
+				</div>
+				<div class="width-2">
+					<p>パスワード(非表示)</p>
+					<p th:password="${users.password}"></p>
+				</div>
+				<div class="width-2">
+					<p>電話番号</p>
+					<p th:text="${users.phone}"></p>
+				</div>
+			</div>
+
+			<div class="role_btn">
+				<a th:href="@{/admin/roles/{id}/Edit(id=${users.id})}">
+					<button type="button">編集</button>
+				</a>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

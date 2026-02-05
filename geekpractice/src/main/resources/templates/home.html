@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/home.css}">
+	<title>Geek_Top</title>
+</head>
+
+<body>
+	<header class="header">
+		<h1>GeekシステムTOP</h1>
+		<form th:action="@{/login}" method="post">
+			<button type="submit" class="loguot">ログアウト</button>
+		</form>
+	</header>
+	
+	<div class="profile" th:if="${currentUser}">
+		<div>
+			<p>ログインユーザー: <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span></p>
+			<p>メール: <span th:text="${currentUser.email}"></span></p>
+		</div>
+		<div>
+			<p>役職: <span th:text="${roleName}"></span></p>
+			<p><a th:href="@{'/admin/roles/' + ${currentUser.id} + '/Edit'}">プロフィール編集</a></p>
+		</div>
+	</div>
+
+	<div class="top">
+		<div>
+			<a href="/stores/storesControl"><button>店舗管理</butto></a>
+		</div>
+		<div>
+			<a href="/goods/goodsControl"><button>商品管理</butto></a>
+		</div>
+		<div>
+			<a href="/category/largeCategoryList"><button>カテゴリ管理</butto></a>
+		</div>
+		<div>
+			<a href="/makers/makersControl"><button>メーカ管理</butto></a>
+		</div>
+		<div>
+			<a href="/admin/rolesControl"><button>管理者管理</butto></a>
+		</div>
+	</div>
+
+</body>
+
+</html>
+
+<!--
+	http://localhost:8080/home
+-->

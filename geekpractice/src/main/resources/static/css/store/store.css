@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.store_box p{
+	margin: 0;
+
+}
+
+.store_box div{
+	padding: 10px;
+}
+
+.store_btn {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+}
+
+.store_btn button {
+	font-size: 24px;
+	width: 160px;
+	height: 40px;
+	background-color: rgb(43, 99, 59);
+}
+
+.store_btn button:hover {
+	background-color: rgb(73, 161, 80);
+}
+
+.store_btn button:active {
+	background-color: rgb(43, 99, 59);
+}
+

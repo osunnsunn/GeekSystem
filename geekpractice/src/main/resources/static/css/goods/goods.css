@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+}
+
+.goods_box {
+	display: flex;
+}
+
+.goods_box div {
+	border: solid;
+	width: 100%;
+	padding: 10px;
+}
+
+.description input{
+	width: 98%;
+	height: 100px;
+}
+
+.goods_btn {
+	position: fixed;
+	right: 20px;
+	bottom: 20px;
+}
+
+.goods_btn button {
+	font-size: 24px;
+	width: 160px;
+	height: 40px;
+	background-color: rgb(43, 99, 59);
+}
+
+.goods_btn button:hover {
+	background-color: rgb(73, 161, 80);
+}
+
+.goods_btn button:active {
+	background-color: rgb(43, 99, 59);
+}
+
+.detail {
+	display: flex;
+	gap: 30px;
+}
